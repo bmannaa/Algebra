@@ -1,0 +1,710 @@
+GHCi, version 6.10.4: http://www.haskell.org/ghc/  :? for help
+Loading package ghc-prim ... linking ... done.
+Loading package integer ... linking ... done.
+Loading package base ... linking ... done.
+Prelude> :cd ..
+Prelude> :load Algebra.UPoly
+[14 of 14] Compiling Algebra.UPoly    ( Algebra/UPoly.hs, interpreted )
+
+Algebra/UPoly.hs:186:34:
+    Couldn't match expected type `[r]
+                                  -> (a -> b -> c)
+                                  -> [a]
+                                  -> [b]
+                                  -> [c]'
+           against inferred type `[r]'
+    In the second argument of `(<*>)', namely
+        `p [v ^ e | e <- [0 .. ]]'
+    In the expression: zipWith <*> p [v ^ e | e <- [0 .. ]]
+    In the definition of `substitute':
+        substitute (UP p) v = zipWith <*> p [v ^ e | e <- [0 .. ]]
+Failed, modules loaded: Algebra.Q, Algebra.Z, Algebra.Ideals, Algebra.Structures.Rings, Algebra.Structures.EuclideanDomains, Algebra.Structures.Coherent, Algebra.Matrix, Algebra.Structures.StronglyDiscrete, Algebra.Structures.BezoutDomains, Algebra.PLM, Algebra.Structures.PruferDomains, Algebra.Structures.Groups, Algebra.TypeString.Char.
+Prelude Algebra.Q> :r
+[14 of 14] Compiling Algebra.UPoly    ( Algebra/UPoly.hs, interpreted )
+
+Algebra/UPoly.hs:186:53:
+    Couldn't match expected type `[r]
+                                  -> (a -> b -> c)
+                                  -> [a]
+                                  -> [b]
+                                  -> [c]'
+           against inferred type `[r]'
+    In the second argument of `(<*>)', namely
+        `p [v ^ e | e <- [0 .. ]]'
+    In the second argument of `($)', namely
+        `zipWith <*> p [v ^ e | e <- [0 .. ]]'
+    In the expression:
+          foldr (<+>) zero $ zipWith <*> p [v ^ e | e <- [0 .. ]]
+:rFailed, modules loaded: Algebra.Q, Algebra.Z, Algebra.Ideals, Algebra.Structures.Rings, Algebra.Structures.EuclideanDomains, Algebra.Structures.Coherent, Algebra.Matrix, Algebra.Structures.StronglyDiscrete, Algebra.Structures.BezoutDomains, Algebra.PLM, Algebra.Structures.PruferDomains, Algebra.Structures.Groups, Algebra.TypeString.Char.
+Prelude Algebra.Q> :r
+[14 of 14] Compiling Algebra.UPoly    ( Algebra/UPoly.hs, interpreted )
+
+Algebra/UPoly.hs:186:12:
+    Could not deduce (CommutativeRing r) from the context (Ring r)
+      arising from a use of `UP' at Algebra/UPoly.hs:186:12-13
+    Possible fix:
+      add (CommutativeRing r) to the context of
+        the type signature for `substitute'
+    In the pattern: UP p
+    In the definition of `substitute':
+        substitute (UP p) v
+                     = foldr (<+>) zero $ zipWith (<*>) p [v ^ e | e <- [0 .. ]]
+
+Algebra/UPoly.hs:186:58:
+    Could not deduce (Num r) from the context (Ring r)
+      arising from a use of `^' at Algebra/UPoly.hs:186:58-60
+    Possible fix:
+      add (Num r) to the context of the type signature for `substitute'
+    In the expression: v ^ e
+    In the third argument of `zipWith', namely `[v ^ e | e <- [0 .. ]]'
+    In the second argument of `($)', namely
+        `zipWith (<*>) p [v ^ e | e <- [0 .. ]]'
+Failed, modules loaded: Algebra.Q, Algebra.Z, Algebra.Ideals, Algebra.Structures.Rings, Algebra.Structures.EuclideanDomains, Algebra.Structures.Coherent, Algebra.Matrix, Algebra.Structures.StronglyDiscrete, Algebra.Structures.BezoutDomains, Algebra.PLM, Algebra.Structures.PruferDomains, Algebra.Structures.Groups, Algebra.TypeString.Char.
+Prelude Algebra.Q> :r
+[14 of 14] Compiling Algebra.UPoly    ( Algebra/UPoly.hs, interpreted )
+
+Algebra/UPoly.hs:186:12:
+    Could not deduce (CommutativeRing r) from the context (Ring r)
+      arising from a use of `UP' at Algebra/UPoly.hs:186:12-13
+    Possible fix:
+      add (CommutativeRing r) to the context of
+        the type signature for `substitute'
+    In the pattern: UP p
+    In the definition of `substitute':
+        substitute (UP p) v
+                     = foldr (<+>) zero $ zipWith (<*>) p [v ^ e | e <- [0 .. ]]
+
+Algebra/UPoly.hs:186:58:
+    Could not deduce (Num r) from the context (Ring r)
+      arising from a use of `^' at Algebra/UPoly.hs:186:58-60
+    Possible fix:
+      add (Num r) to the context of the type signature for `substitute'
+    In the expression: v ^ e
+    In the third argument of `zipWith', namely `[v ^ e | e <- [0 .. ]]'
+    In the second argument of `($)', namely
+        `zipWith (<*>) p [v ^ e | e <- [0 .. ]]'
+Failed, modules loaded: Algebra.Q, Algebra.Z, Algebra.Ideals, Algebra.Structures.Rings, Algebra.Structures.EuclideanDomains, Algebra.Structures.Coherent, Algebra.Matrix, Algebra.Structures.StronglyDiscrete, Algebra.Structures.BezoutDomains, Algebra.PLM, Algebra.Structures.PruferDomains, Algebra.Structures.Groups, Algebra.TypeString.Char.
+Prelude Algebra.Q> :r
+[ 3 of 14] Compiling Algebra.Structures.Rings ( Algebra/Structures/Rings.hs, interpreted )
+
+Algebra/Structures/Rings.hs:19:25:
+    Ambiguous occurrence `^'
+    It could refer to either `Algebra.Structures.Rings.^', defined at Algebra/Structures/Rings.hs:18:1
+                          or `Prelude.^', imported from Prelude
+Failed, modules loaded: Algebra.Structures.Groups, Algebra.TypeString.Char.
+Prelude Algebra.Structures.Groups> :r
+[ 3 of 14] Compiling Algebra.Structures.Rings ( Algebra/Structures/Rings.hs, interpreted )
+
+Algebra/Structures/Rings.hs:19:25:
+    Ambiguous occurrence `^'
+    It could refer to either `Algebra.Structures.Rings.^', defined at Algebra/Structures/Rings.hs:18:1
+                          or `Prelude.^', imported from Prelude
+Failed, modules loaded: Algebra.Structures.Groups, Algebra.TypeString.Char.
+Prelude Algebra.Structures.Groups> :r
+
+Algebra/UPoly.hs:14:23: parse error on input `^'
+Failed, modules loaded: Algebra.Structures.Groups, Algebra.TypeString.Char.
+Prelude Algebra.Structures.Groups> :r
+[ 3 of 14] Compiling Algebra.Structures.Rings ( Algebra/Structures/Rings.hs, interpreted )
+
+Algebra/Structures/Rings.hs:19:25:
+    Ambiguous occurrence `^'
+    It could refer to either `Algebra.Structures.Rings.^', defined at Algebra/Structures/Rings.hs:18:1
+                          or `Prelude.^', imported from Prelude
+Failed, modules loaded: Algebra.Structures.Groups, Algebra.TypeString.Char.
+Prelude Algebra.Structures.Groups> :r
+
+Algebra/Structures/Rings.hs:4:23: parse error on input `^'
+Failed, modules loaded: Algebra.Structures.Groups, Algebra.TypeString.Char.
+Prelude Algebra.Structures.Groups> :r
+
+Algebra/Structures/Rings.hs:4:23: parse error on input `^'
+Failed, modules loaded: Algebra.Structures.Groups, Algebra.TypeString.Char.
+Prelude Algebra.Structures.Groups> :r
+[ 3 of 14] Compiling Algebra.Structures.Rings ( Algebra/Structures/Rings.hs, interpreted )
+
+Algebra/Structures/Rings.hs:19:9:
+    Could not deduce (Num int) from the context (Ring a)
+      arising from the literal `0' at Algebra/Structures/Rings.hs:19:9
+    Possible fix:
+      add (Num int) to the context of the type signature for `^'
+    In the second argument of `(==)', namely `0'
+    In the expression: i == 0
+    In a stmt of a pattern guard for
+                 the definition of `^':
+          i == 0
+Failed, modules loaded: Algebra.Structures.Groups, Algebra.TypeString.Char.
+Prelude Algebra.Structures.Groups> :r
+[ 3 of 14] Compiling Algebra.Structures.Rings ( Algebra/Structures/Rings.hs, interpreted )
+[ 4 of 14] Compiling Algebra.Matrix   ( Algebra/Matrix.hs, interpreted )
+[ 5 of 14] Compiling Algebra.Ideals   ( Algebra/Ideals.hs, interpreted )
+[ 6 of 14] Compiling Algebra.Structures.StronglyDiscrete ( Algebra/Structures/StronglyDiscrete.hs, interpreted )
+[ 7 of 14] Compiling Algebra.Structures.Coherent ( Algebra/Structures/Coherent.hs, interpreted )
+[ 8 of 14] Compiling Algebra.Structures.EuclideanDomains ( Algebra/Structures/EuclideanDomains.hs, interpreted )
+[ 9 of 14] Compiling Algebra.PLM      ( Algebra/PLM.hs, interpreted )
+[10 of 14] Compiling Algebra.Structures.PruferDomains ( Algebra/Structures/PruferDomains.hs, interpreted )
+[11 of 14] Compiling Algebra.Structures.BezoutDomains ( Algebra/Structures/BezoutDomains.hs, interpreted )
+[12 of 14] Compiling Algebra.Z        ( Algebra/Z.hs, interpreted )
+[13 of 14] Compiling Algebra.Q        ( Algebra/Q.hs, interpreted )
+[14 of 14] Compiling Algebra.UPoly    ( Algebra/UPoly.hs, interpreted )
+
+Algebra/UPoly.hs:186:59:
+    Ambiguous occurrence `^'
+    It could refer to either `Prelude.^', imported from Prelude
+                          or `Algebra.Structures.Rings.^', imported from Algebra.Structures.Rings at Algebra/UPoly.hs:9:0-30
+                                                             (defined at Algebra/Structures/Rings.hs:19:1)
+Failed, modules loaded: Algebra.Q, Algebra.Z, Algebra.Ideals, Algebra.Structures.Rings, Algebra.Structures.EuclideanDomains, Algebra.Structures.Coherent, Algebra.Matrix, Algebra.Structures.StronglyDiscrete, Algebra.Structures.BezoutDomains, Algebra.PLM, Algebra.Structures.PruferDomains, Algebra.Structures.Groups, Algebra.TypeString.Char.
+*Algebra.Q> :r
+[14 of 14] Compiling Algebra.UPoly    ( Algebra/UPoly.hs, interpreted )
+
+Algebra/UPoly.hs:186:12:
+    Could not deduce (CommutativeRing r) from the context (Ring r)
+      arising from a use of `UP' at Algebra/UPoly.hs:186:12-13
+    Possible fix:
+      add (CommutativeRing r) to the context of
+        the type signature for `substitute'
+    In the pattern: UP p
+    In the definition of `substitute':
+        substitute (UP p) v
+                     = foldr (<+>) zero $ zipWith (<*>) p [v ^ e | e <- [0 .. ]]
+Failed, modules loaded: Algebra.Q, Algebra.Z, Algebra.Ideals, Algebra.Structures.Rings, Algebra.Structures.EuclideanDomains, Algebra.Structures.Coherent, Algebra.Matrix, Algebra.Structures.StronglyDiscrete, Algebra.Structures.BezoutDomains, Algebra.PLM, Algebra.Structures.PruferDomains, Algebra.Structures.Groups, Algebra.TypeString.Char.
+*Algebra.Q> :r
+[ 3 of 14] Compiling Algebra.Structures.Rings ( Algebra/Structures/Rings.hs, interpreted )
+
+Algebra/Structures/Rings.hs:19:25:
+    Ambiguous occurrence `^^'
+    It could refer to either `Algebra.Structures.Rings.^^', defined at Algebra/Structures/Rings.hs:18:1
+                          or `Prelude.^^', imported from Prelude
+Failed, modules loaded: Algebra.Structures.Groups, Algebra.TypeString.Char.
+Prelude Algebra.Structures.Groups> :r
+[ 3 of 14] Compiling Algebra.Structures.Rings ( Algebra/Structures/Rings.hs, interpreted )
+
+Algebra/Structures/Rings.hs:19:25:
+    Ambiguous occurrence `^^'
+    It could refer to either `Algebra.Structures.Rings.^^', defined at Algebra/Structures/Rings.hs:18:1
+                          or `Prelude.^^', imported from Prelude
+Failed, modules loaded: Algebra.Structures.Groups, Algebra.TypeString.Char.
+Prelude Algebra.Structures.Groups> :r
+[ 3 of 14] Compiling Algebra.Structures.Rings ( Algebra/Structures/Rings.hs, interpreted )
+[ 4 of 14] Compiling Algebra.Matrix   ( Algebra/Matrix.hs, interpreted )
+[ 5 of 14] Compiling Algebra.Ideals   ( Algebra/Ideals.hs, interpreted )
+[ 6 of 14] Compiling Algebra.Structures.StronglyDiscrete ( Algebra/Structures/StronglyDiscrete.hs, interpreted )
+[ 7 of 14] Compiling Algebra.Structures.Coherent ( Algebra/Structures/Coherent.hs, interpreted )
+[ 8 of 14] Compiling Algebra.Structures.EuclideanDomains ( Algebra/Structures/EuclideanDomains.hs, interpreted )
+[ 9 of 14] Compiling Algebra.PLM      ( Algebra/PLM.hs, interpreted )
+[10 of 14] Compiling Algebra.Structures.PruferDomains ( Algebra/Structures/PruferDomains.hs, interpreted )
+[11 of 14] Compiling Algebra.Structures.BezoutDomains ( Algebra/Structures/BezoutDomains.hs, interpreted )
+[12 of 14] Compiling Algebra.Z        ( Algebra/Z.hs, interpreted )
+[13 of 14] Compiling Algebra.Q        ( Algebra/Q.hs, interpreted )
+[14 of 14] Compiling Algebra.UPoly    ( Algebra/UPoly.hs, interpreted )
+
+Algebra/UPoly.hs:186:59: Not in scope: `^'
+Failed, modules loaded: Algebra.Q, Algebra.Z, Algebra.Ideals, Algebra.Structures.Rings, Algebra.Structures.EuclideanDomains, Algebra.Structures.Coherent, Algebra.Matrix, Algebra.Structures.StronglyDiscrete, Algebra.Structures.BezoutDomains, Algebra.PLM, Algebra.Structures.PruferDomains, Algebra.Structures.Groups, Algebra.TypeString.Char.
+*Algebra.Q> :r
+[14 of 14] Compiling Algebra.UPoly    ( Algebra/UPoly.hs, interpreted )
+
+Algebra/UPoly.hs:186:59: Not in scope: `^'
+Failed, modules loaded: Algebra.Q, Algebra.Z, Algebra.Ideals, Algebra.Structures.Rings, Algebra.Structures.EuclideanDomains, Algebra.Structures.Coherent, Algebra.Matrix, Algebra.Structures.StronglyDiscrete, Algebra.Structures.BezoutDomains, Algebra.PLM, Algebra.Structures.PruferDomains, Algebra.Structures.Groups, Algebra.TypeString.Char.
+*Algebra.Q> :r
+[14 of 14] Compiling Algebra.UPoly    ( Algebra/UPoly.hs, interpreted )
+
+Algebra/UPoly.hs:186:59: Not in scope: `^'
+Failed, modules loaded: Algebra.Q, Algebra.Z, Algebra.Ideals, Algebra.Structures.Rings, Algebra.Structures.EuclideanDomains, Algebra.Structures.Coherent, Algebra.Matrix, Algebra.Structures.StronglyDiscrete, Algebra.Structures.BezoutDomains, Algebra.PLM, Algebra.Structures.PruferDomains, Algebra.Structures.Groups, Algebra.TypeString.Char.
+*Algebra.Q> :r
+[14 of 14] Compiling Algebra.UPoly    ( Algebra/UPoly.hs, interpreted )
+
+Algebra/UPoly.hs:186:12:
+    Could not deduce (CommutativeRing r) from the context (Ring r)
+      arising from a use of `UP' at Algebra/UPoly.hs:186:12-13
+    Possible fix:
+      add (CommutativeRing r) to the context of
+        the type signature for `substitute'
+    In the pattern: UP p
+    In the definition of `substitute':
+        substitute (UP p) v
+                     = foldr (<+>) zero $ zipWith (<*>) p [v ^^ e | e <- [0 .. ]]
+Failed, modules loaded: Algebra.Q, Algebra.Z, Algebra.Ideals, Algebra.Structures.Rings, Algebra.Structures.EuclideanDomains, Algebra.Structures.Coherent, Algebra.Matrix, Algebra.Structures.StronglyDiscrete, Algebra.Structures.BezoutDomains, Algebra.PLM, Algebra.Structures.PruferDomains, Algebra.Structures.Groups, Algebra.TypeString.Char.
+*Algebra.Q> :r
+[14 of 14] Compiling Algebra.UPoly    ( Algebra/UPoly.hs, interpreted )
+Ok, modules loaded: Algebra.UPoly, Algebra.Q, Algebra.Z, Algebra.Ideals, Algebra.Structures.Rings, Algebra.Structures.EuclideanDomains, Algebra.Structures.Coherent, Algebra.Matrix, Algebra.Structures.StronglyDiscrete, Algebra.Structures.BezoutDomains, Algebra.PLM, Algebra.Structures.PruferDomains, Algebra.Structures.Groups, Algebra.TypeString.Char.
+*Algebra.UPoly> :r
+Ok, modules loaded: Algebra.UPoly, Algebra.Q, Algebra.Z, Algebra.Ideals, Algebra.Structures.Rings, Algebra.Structures.EuclideanDomains, Algebra.Structures.Coherent, Algebra.Matrix, Algebra.Structures.StronglyDiscrete, Algebra.Structures.BezoutDomains, Algebra.PLM, Algebra.Structures.PruferDomains, Algebra.Structures.Groups, Algebra.TypeString.Char.
+*Algebra.UPoly> let p = UP [1,2,2,3,3] :: UPoly Q X_
+Loading package syb ... linking ... done.
+Loading package base-3.0.3.1 ... linking ... done.
+Loading package old-locale-1.0.0.1 ... linking ... done.
+Loading package old-time-1.0.0.2 ... linking ... done.
+Loading package random-1.0.0.1 ... linking ... done.
+Loading package QuickCheck-1.2.0.0 ... linking ... done.
+Loading package array-0.2.0.0 ... linking ... done.
+Loading package containers-0.2.0.1 ... linking ... done.
+Loading package HaskellForMaths-0.2.1 ... linking ... done.
+*Algebra.UPoly> p
+Loading package filepath-1.1.0.2 ... linking ... done.
+Loading package unix-2.3.2.0 ... linking ... done.
+Loading package directory-1.0.0.3 ... linking ... done.
+Loading package pretty-1.0.1.0 ... linking ... done.
+Loading package process-1.0.1.1 ... linking ... done.
+Loading package Cabal-1.6.0.3 ... linking ... done.
+Loading package bytestring-0.9.1.4 ... linking ... done.
+Loading package haskell98 ... linking ... done.
+Loading package hpc-0.5.0.3 ... linking ... done.
+Loading package packedstring-0.1.0.1 ... linking ... done.
+Loading package template-haskell ... linking ... done.
+Loading package ghc-6.10.4 ... linking ... done.
+Loading package extensible-exceptions-0.1.1.0 ... linking ... done.
+Loading package mtl-1.1.0.2 ... linking ... done.
+Loading package QuickCheck-2.3 ... linking ... done.
+1+2x+2x^2+3x^3+3x^4
+*Algebra.UPoly> substitute p 0
+1
+*Algebra.UPoly> substitute p 1
+11
+*Algebra.UPoly> substitute p 2
+85
+*Algebra.UPoly> :r
+[14 of 14] Compiling Algebra.UPoly    ( Algebra/UPoly.hs, interpreted )
+
+Algebra/UPoly.hs:192:56: Not in scope: `Lst.zipWith'
+
+Algebra/UPoly.hs:192:75: Not in scope: `Lst.map'
+
+Algebra/UPoly.hs:192:112: Not in scope: `lsr'
+Failed, modules loaded: Algebra.Q, Algebra.Z, Algebra.Ideals, Algebra.Structures.Rings, Algebra.Structures.EuclideanDomains, Algebra.Structures.Coherent, Algebra.Matrix, Algebra.Structures.StronglyDiscrete, Algebra.Structures.BezoutDomains, Algebra.PLM, Algebra.Structures.PruferDomains, Algebra.Structures.Groups, Algebra.TypeString.Char.
+*Algebra.Q> :r
+[14 of 14] Compiling Algebra.UPoly    ( Algebra/UPoly.hs, interpreted )
+Ok, modules loaded: Algebra.UPoly, Algebra.Q, Algebra.Z, Algebra.Ideals, Algebra.Structures.Rings, Algebra.Structures.EuclideanDomains, Algebra.Structures.Coherent, Algebra.Matrix, Algebra.Structures.StronglyDiscrete, Algebra.Structures.BezoutDomains, Algebra.PLM, Algebra.Structures.PruferDomains, Algebra.Structures.Groups, Algebra.TypeString.Char.
+*Algebra.UPoly> :load Algebra.MPoly
+[ 3 of 14] Compiling Algebra.Structures.Rings ( Algebra/Structures/Rings.hs, interpreted )
+[ 4 of 14] Compiling Algebra.Matrix   ( Algebra/Matrix.hs, interpreted )
+[ 5 of 14] Compiling Algebra.Ideals   ( Algebra/Ideals.hs, interpreted )
+[ 6 of 14] Compiling Algebra.Structures.StronglyDiscrete ( Algebra/Structures/StronglyDiscrete.hs, interpreted )
+[ 7 of 14] Compiling Algebra.Structures.Coherent ( Algebra/Structures/Coherent.hs, interpreted )
+[ 8 of 14] Compiling Algebra.Structures.EuclideanDomains ( Algebra/Structures/EuclideanDomains.hs, interpreted )
+[ 9 of 14] Compiling Algebra.PLM      ( Algebra/PLM.hs, interpreted )
+[10 of 14] Compiling Algebra.Structures.PruferDomains ( Algebra/Structures/PruferDomains.hs, interpreted )
+[11 of 14] Compiling Algebra.Structures.BezoutDomains ( Algebra/Structures/BezoutDomains.hs, interpreted )
+[12 of 14] Compiling Algebra.Z        ( Algebra/Z.hs, interpreted )
+[13 of 14] Compiling Algebra.Q        ( Algebra/Q.hs, interpreted )
+[14 of 14] Compiling Algebra.MPoly    ( Algebra/MPoly.hs, interpreted )
+
+Algebra/MPoly.hs:269:15: malformed class assertion
+Failed, modules loaded: Algebra.Q, Algebra.Z, Algebra.Ideals, Algebra.Structures.Rings, Algebra.Structures.EuclideanDomains, Algebra.Structures.Coherent, Algebra.Matrix, Algebra.Structures.StronglyDiscrete, Algebra.Structures.BezoutDomains, Algebra.PLM, Algebra.Structures.PruferDomains, Algebra.Structures.Groups, Algebra.Monomial.
+*Algebra.Q> :r
+[14 of 14] Compiling Algebra.MPoly    ( Algebra/MPoly.hs, interpreted )
+
+Algebra/MPoly.hs:269:14: malformed class assertion
+Failed, modules loaded: Algebra.Q, Algebra.Z, Algebra.Ideals, Algebra.Structures.Rings, Algebra.Structures.EuclideanDomains, Algebra.Structures.Coherent, Algebra.Matrix, Algebra.Structures.StronglyDiscrete, Algebra.Structures.BezoutDomains, Algebra.PLM, Algebra.Structures.PruferDomains, Algebra.Structures.Groups, Algebra.Monomial.
+*Algebra.Q> :r
+[14 of 14] Compiling Algebra.MPoly    ( Algebra/MPoly.hs, interpreted )
+
+Algebra/MPoly.hs:269:14: malformed class assertion
+Failed, modules loaded: Algebra.Q, Algebra.Z, Algebra.Ideals, Algebra.Structures.Rings, Algebra.Structures.EuclideanDomains, Algebra.Structures.Coherent, Algebra.Matrix, Algebra.Structures.StronglyDiscrete, Algebra.Structures.BezoutDomains, Algebra.PLM, Algebra.Structures.PruferDomains, Algebra.Structures.Groups, Algebra.Monomial.
+*Algebra.Q> :r
+[14 of 14] Compiling Algebra.MPoly    ( Algebra/MPoly.hs, interpreted )
+
+Algebra/MPoly.hs:270:23: Not in scope: `fromList'
+
+Algebra/MPoly.hs:270:33: Not in scope: `groupBy'
+
+Algebra/MPoly.hs:272:16: Not in scope: `toList'
+
+Algebra/MPoly.hs:274:26: Not in scope: `<+'
+Failed, modules loaded: Algebra.Q, Algebra.Z, Algebra.Ideals, Algebra.Structures.Rings, Algebra.Structures.EuclideanDomains, Algebra.Structures.Coherent, Algebra.Matrix, Algebra.Structures.StronglyDiscrete, Algebra.Structures.BezoutDomains, Algebra.PLM, Algebra.Structures.PruferDomains, Algebra.Structures.Groups, Algebra.Monomial.
+*Algebra.Q> :r
+[14 of 14] Compiling Algebra.MPoly    ( Algebra/MPoly.hs, interpreted )
+
+Algebra/MPoly.hs:270:37: Not in scope: `groupBy'
+
+Algebra/MPoly.hs:274:26: Not in scope: `<+'
+Failed, modules loaded: Algebra.Q, Algebra.Z, Algebra.Ideals, Algebra.Structures.Rings, Algebra.Structures.EuclideanDomains, Algebra.Structures.Coherent, Algebra.Matrix, Algebra.Structures.StronglyDiscrete, Algebra.Structures.BezoutDomains, Algebra.PLM, Algebra.Structures.PruferDomains, Algebra.Structures.Groups, Algebra.Monomial.
+*Algebra.Q> :r
+[14 of 14] Compiling Algebra.MPoly    ( Algebra/MPoly.hs, interpreted )
+
+Algebra/MPoly.hs:270:37: Not in scope: `groupBy'
+
+Algebra/MPoly.hs:274:26: Not in scope: `<+'
+Failed, modules loaded: Algebra.Q, Algebra.Z, Algebra.Ideals, Algebra.Structures.Rings, Algebra.Structures.EuclideanDomains, Algebra.Structures.Coherent, Algebra.Matrix, Algebra.Structures.StronglyDiscrete, Algebra.Structures.BezoutDomains, Algebra.PLM, Algebra.Structures.PruferDomains, Algebra.Structures.Groups, Algebra.Monomial.
+*Algebra.Q> :r
+[14 of 14] Compiling Algebra.MPoly    ( Algebra/MPoly.hs, interpreted )
+
+Algebra/MPoly.hs:270:37: Not in scope: `groupBy'
+Failed, modules loaded: Algebra.Q, Algebra.Z, Algebra.Ideals, Algebra.Structures.Rings, Algebra.Structures.EuclideanDomains, Algebra.Structures.Coherent, Algebra.Matrix, Algebra.Structures.StronglyDiscrete, Algebra.Structures.BezoutDomains, Algebra.PLM, Algebra.Structures.PruferDomains, Algebra.Structures.Groups, Algebra.Monomial.
+*Algebra.Q> :r
+[14 of 14] Compiling Algebra.MPoly    ( Algebra/MPoly.hs, interpreted )
+
+Algebra/MPoly.hs:270:37: Not in scope: `groupBy'
+Failed, modules loaded: Algebra.Q, Algebra.Z, Algebra.Ideals, Algebra.Structures.Rings, Algebra.Structures.EuclideanDomains, Algebra.Structures.Coherent, Algebra.Matrix, Algebra.Structures.StronglyDiscrete, Algebra.Structures.BezoutDomains, Algebra.PLM, Algebra.Structures.PruferDomains, Algebra.Structures.Groups, Algebra.Monomial.
+*Algebra.Q> :r
+[14 of 14] Compiling Algebra.MPoly    ( Algebra/MPoly.hs, interpreted )
+
+Algebra/MPoly.hs:270:43: Not in scope: `groupBy'
+Failed, modules loaded: Algebra.Q, Algebra.Z, Algebra.Ideals, Algebra.Structures.Rings, Algebra.Structures.EuclideanDomains, Algebra.Structures.Coherent, Algebra.Matrix, Algebra.Structures.StronglyDiscrete, Algebra.Structures.BezoutDomains, Algebra.PLM, Algebra.Structures.PruferDomains, Algebra.Structures.Groups, Algebra.Monomial.
+*Algebra.Q> :r
+[14 of 14] Compiling Algebra.MPoly    ( Algebra/MPoly.hs, interpreted )
+
+Algebra/MPoly.hs:270:43: Not in scope: `groupBy'
+Failed, modules loaded: Algebra.Q, Algebra.Z, Algebra.Ideals, Algebra.Structures.Rings, Algebra.Structures.EuclideanDomains, Algebra.Structures.Coherent, Algebra.Matrix, Algebra.Structures.StronglyDiscrete, Algebra.Structures.BezoutDomains, Algebra.PLM, Algebra.Structures.PruferDomains, Algebra.Structures.Groups, Algebra.Monomial.
+*Algebra.Q> :r
+[14 of 14] Compiling Algebra.MPoly    ( Algebra/MPoly.hs, interpreted )
+
+Algebra/MPoly.hs:270:43: Not in scope: `Data.List.groupBy'
+Failed, modules loaded: Algebra.Q, Algebra.Z, Algebra.Ideals, Algebra.Structures.Rings, Algebra.Structures.EuclideanDomains, Algebra.Structures.Coherent, Algebra.Matrix, Algebra.Structures.StronglyDiscrete, Algebra.Structures.BezoutDomains, Algebra.PLM, Algebra.Structures.PruferDomains, Algebra.Structures.Groups, Algebra.Monomial.
+*Algebra.Q> :r
+[14 of 14] Compiling Algebra.MPoly    ( Algebra/MPoly.hs, interpreted )
+
+Algebra/MPoly.hs:270:43: Not in scope: `Data.List.groupBy'
+Failed, modules loaded: Algebra.Q, Algebra.Z, Algebra.Ideals, Algebra.Structures.Rings, Algebra.Structures.EuclideanDomains, Algebra.Structures.Coherent, Algebra.Matrix, Algebra.Structures.StronglyDiscrete, Algebra.Structures.BezoutDomains, Algebra.PLM, Algebra.Structures.PruferDomains, Algebra.Structures.Groups, Algebra.Monomial.
+*Algebra.Q> :r
+[14 of 14] Compiling Algebra.MPoly    ( Algebra/MPoly.hs, interpreted )
+
+Algebra/MPoly.hs:270:43: Not in scope: `Data.List.groupBy'
+Failed, modules loaded: Algebra.Q, Algebra.Z, Algebra.Ideals, Algebra.Structures.Rings, Algebra.Structures.EuclideanDomains, Algebra.Structures.Coherent, Algebra.Matrix, Algebra.Structures.StronglyDiscrete, Algebra.Structures.BezoutDomains, Algebra.PLM, Algebra.Structures.PruferDomains, Algebra.Structures.Groups, Algebra.Monomial.
+*Algebra.Q> :r
+[14 of 14] Compiling Algebra.MPoly    ( Algebra/MPoly.hs, interpreted )
+
+Algebra/MPoly.hs:270:43: Not in scope: `groupBy'
+Failed, modules loaded: Algebra.Q, Algebra.Z, Algebra.Ideals, Algebra.Structures.Rings, Algebra.Structures.EuclideanDomains, Algebra.Structures.Coherent, Algebra.Matrix, Algebra.Structures.StronglyDiscrete, Algebra.Structures.BezoutDomains, Algebra.PLM, Algebra.Structures.PruferDomains, Algebra.Structures.Groups, Algebra.Monomial.
+*Algebra.Q> :r
+[14 of 14] Compiling Algebra.MPoly    ( Algebra/MPoly.hs, interpreted )
+
+Algebra/MPoly.hs:270:28:
+    Couldn't match expected type `Map (Monomial ord) r'
+           against inferred type `[(k, a)] -> Map k a'
+    In the second argument of `($)', namely `Map.fromList'
+    In the first argument of `map', namely `(M $ Map.fromList)'
+    In the expression: map (M $ Map.fromList) (groupBy f l)
+Failed, modules loaded: Algebra.Q, Algebra.Z, Algebra.Ideals, Algebra.Structures.Rings, Algebra.Structures.EuclideanDomains, Algebra.Structures.Coherent, Algebra.Matrix, Algebra.Structures.StronglyDiscrete, Algebra.Structures.BezoutDomains, Algebra.PLM, Algebra.Structures.PruferDomains, Algebra.Structures.Groups, Algebra.Monomial.
+*Algebra.Q> :r
+[14 of 14] Compiling Algebra.MPoly    ( Algebra/MPoly.hs, interpreted )
+
+Algebra/MPoly.hs:270:51:
+    Couldn't match expected type `Monomial o'
+           against inferred type `[a]'
+      Expected type: (Monomial o, r)
+      Inferred type: ([a], t)
+    In the first argument of `groupBy', namely `f'
+    In the second argument of `map', namely `(groupBy f l)'
+Failed, modules loaded: Algebra.Q, Algebra.Z, Algebra.Ideals, Algebra.Structures.Rings, Algebra.Structures.EuclideanDomains, Algebra.Structures.Coherent, Algebra.Matrix, Algebra.Structures.StronglyDiscrete, Algebra.Structures.BezoutDomains, Algebra.PLM, Algebra.Structures.PruferDomains, Algebra.Structures.Groups, Algebra.Monomial.
+*Algebra.Q> :r
+[14 of 14] Compiling Algebra.MPoly    ( Algebra/MPoly.hs, interpreted )
+
+Algebra/MPoly.hs:270:61:
+    Couldn't match expected type `[a]'
+           against inferred type `Monomial o'
+      Expected type: [([a], t)]
+      Inferred type: [(Monomial o, r)]
+    In the second argument of `groupBy', namely `l'
+    In the second argument of `map', namely `(groupBy f l)'
+Failed, modules loaded: Algebra.Q, Algebra.Z, Algebra.Ideals, Algebra.Structures.Rings, Algebra.Structures.EuclideanDomains, Algebra.Structures.Coherent, Algebra.Matrix, Algebra.Structures.StronglyDiscrete, Algebra.Structures.BezoutDomains, Algebra.PLM, Algebra.Structures.PruferDomains, Algebra.Structures.Groups, Algebra.Monomial.
+*Algebra.Q> :r
+[14 of 14] Compiling Algebra.MPoly    ( Algebra/MPoly.hs, interpreted )
+
+Algebra/MPoly.hs:270:30:
+    Could not deduce (Order o) from the context (CommutativeRing r)
+      arising from a use of `M' at Algebra/MPoly.hs:270:30
+    Possible fix:
+      add (Order o) to the context of the type signature for `homogenize'
+    In the first argument of `($)', namely `M'
+    In the expression: M $ Map.fromList x
+    In the first argument of `map', namely
+        `(\ x -> M $ Map.fromList x)'
+Failed, modules loaded: Algebra.Q, Algebra.Z, Algebra.Ideals, Algebra.Structures.Rings, Algebra.Structures.EuclideanDomains, Algebra.Structures.Coherent, Algebra.Matrix, Algebra.Structures.StronglyDiscrete, Algebra.Structures.BezoutDomains, Algebra.PLM, Algebra.Structures.PruferDomains, Algebra.Structures.Groups, Algebra.Monomial.
+*Algebra.Q> :r
+[14 of 14] Compiling Algebra.MPoly    ( Algebra/MPoly.hs, interpreted )
+
+Algebra/MPoly.hs:270:30:
+    Could not deduce (Order o) from the context (CommutativeRing r)
+      arising from a use of `M' at Algebra/MPoly.hs:270:30
+    Possible fix:
+      add (Order o) to the context of the type signature for `homogenize'
+    In the first argument of `($)', namely `M'
+    In the expression: M $ Map.fromList x
+    In the first argument of `map', namely
+        `(\ x -> M $ Map.fromList x)'
+Failed, modules loaded: Algebra.Q, Algebra.Z, Algebra.Ideals, Algebra.Structures.Rings, Algebra.Structures.EuclideanDomains, Algebra.Structures.Coherent, Algebra.Matrix, Algebra.Structures.StronglyDiscrete, Algebra.Structures.BezoutDomains, Algebra.PLM, Algebra.Structures.PruferDomains, Algebra.Structures.Groups, Algebra.Monomial.
+*Algebra.Q> :r
+[14 of 14] Compiling Algebra.MPoly    ( Algebra/MPoly.hs, interpreted )
+
+Algebra/MPoly.hs:269:34: malformed class assertion
+Failed, modules loaded: Algebra.Q, Algebra.Z, Algebra.Ideals, Algebra.Structures.Rings, Algebra.Structures.EuclideanDomains, Algebra.Structures.Coherent, Algebra.Matrix, Algebra.Structures.StronglyDiscrete, Algebra.Structures.BezoutDomains, Algebra.PLM, Algebra.Structures.PruferDomains, Algebra.Structures.Groups, Algebra.Monomial.
+*Algebra.Q> :e
+editor not set, use :set editor
+*Algebra.Q> :r
+[14 of 14] Compiling Algebra.MPoly    ( Algebra/MPoly.hs, interpreted )
+
+Algebra/MPoly.hs:270:30:
+    Could not deduce (Order o)
+      from the context (CommutativeRing r, Ord o)
+      arising from a use of `M' at Algebra/MPoly.hs:270:30
+    Possible fix:
+      add (Order o) to the context of the type signature for `homogenize'
+    In the first argument of `($)', namely `M'
+    In the expression: M $ Map.fromList x
+    In the first argument of `map', namely
+        `(\ x -> M $ Map.fromList x)'
+Failed, modules loaded: Algebra.Q, Algebra.Z, Algebra.Ideals, Algebra.Structures.Rings, Algebra.Structures.EuclideanDomains, Algebra.Structures.Coherent, Algebra.Matrix, Algebra.Structures.StronglyDiscrete, Algebra.Structures.BezoutDomains, Algebra.PLM, Algebra.Structures.PruferDomains, Algebra.Structures.Groups, Algebra.Monomial.
+*Algebra.Q> :r
+[14 of 14] Compiling Algebra.MPoly    ( Algebra/MPoly.hs, interpreted )
+Ok, modules loaded: Algebra.Q, Algebra.Z, Algebra.Ideals, Algebra.Structures.Rings, Algebra.Structures.EuclideanDomains, Algebra.Structures.Coherent, Algebra.Matrix, Algebra.Structures.StronglyDiscrete, Algebra.Structures.BezoutDomains, Algebra.PLM, Algebra.Structures.PruferDomains, Algebra.Structures.Groups, Algebra.MPoly, Algebra.Monomial.
+*Algebra.MPoly> :r
+Ok, modules loaded: Algebra.Q, Algebra.Z, Algebra.Ideals, Algebra.Structures.Rings, Algebra.Structures.EuclideanDomains, Algebra.Structures.Coherent, Algebra.Matrix, Algebra.Structures.StronglyDiscrete, Algebra.Structures.BezoutDomains, Algebra.PLM, Algebra.Structures.PruferDomains, Algebra.Structures.Groups, Algebra.MPoly, Algebra.Monomial.
+*Algebra.MPoly> :load Algebra.AlgebraicClosure
+[ 4 of 18] Compiling Algebra.Structures.Rings ( Algebra/Structures/Rings.hs, interpreted )
+[ 5 of 18] Compiling Algebra.Matrix   ( Algebra/Matrix.hs, interpreted )
+[ 6 of 18] Compiling Algebra.Ideals   ( Algebra/Ideals.hs, interpreted )
+[ 7 of 18] Compiling Algebra.Structures.StronglyDiscrete ( Algebra/Structures/StronglyDiscrete.hs, interpreted )
+[ 8 of 18] Compiling Algebra.Structures.Coherent ( Algebra/Structures/Coherent.hs, interpreted )
+[ 9 of 18] Compiling Algebra.Structures.EuclideanDomains ( Algebra/Structures/EuclideanDomains.hs, interpreted )
+[10 of 18] Compiling Algebra.PLM      ( Algebra/PLM.hs, interpreted )
+[11 of 18] Compiling Algebra.Structures.PruferDomains ( Algebra/Structures/PruferDomains.hs, interpreted )
+[12 of 18] Compiling Algebra.Structures.BezoutDomains ( Algebra/Structures/BezoutDomains.hs, interpreted )
+[13 of 18] Compiling Algebra.Z        ( Algebra/Z.hs, interpreted )
+[14 of 18] Compiling Algebra.Q        ( Algebra/Q.hs, interpreted )
+[15 of 18] Compiling Algebra.MPoly    ( Algebra/MPoly.hs, interpreted )
+[16 of 18] Compiling Algebra.UPoly    ( Algebra/UPoly.hs, interpreted )
+[17 of 18] Compiling Algebra.FormalPowerSeries ( Algebra/FormalPowerSeries.hs, interpreted )
+
+Algebra/FormalPowerSeries.hs:41:9:
+    Warning: No explicit method nor default method for `abs'
+    In the instance declaration for `Num (PSeries a x)'
+
+Algebra/FormalPowerSeries.hs:41:9:
+    Warning: No explicit method nor default method for `signum'
+    In the instance declaration for `Num (PSeries a x)'
+[18 of 18] Compiling Algebra.AlgebraicClosure ( Algebra/AlgebraicClosure.hs, interpreted )
+Ok, modules loaded: Algebra.UPoly, Algebra.Q, Algebra.Z, Algebra.Ideals, Algebra.Structures.Rings, Algebra.Structures.EuclideanDomains, Algebra.Structures.Coherent, Algebra.Matrix, Algebra.Structures.StronglyDiscrete, Algebra.Structures.BezoutDomains, Algebra.PLM, Algebra.Structures.PruferDomains, Algebra.Structures.Groups, Algebra.TypeString.Char, Algebra.MPoly, Algebra.Monomial, Algebra.AlgebraicClosure, Algebra.FormalPowerSeries.
+*Algebra.AlgebraicClosure> elep
+Loading package lazysmallcheck-0.5 ... linking ... done.
+Loading package Stream-0.4.1 ... linking ... done.
+6*** Exception: Prelude.undefined
+*Algebra.AlgebraicClosur
+*Algebra.AlgebraicClosure> state
+[x^2-2,y^2-2]
+*Algebra.AlgebraicClosure> stwe
+[x^2-2,y+x]
+*Algebra.AlgebraicClosure> let x= toMPoly [(1,[]), (2,[1,2,1]), (3,[1,1,1]), (4,[1,0,2]), (5,[2,0,2]), (6,[3]), (7,[4])] :: MPoly Q Len
+*Algebra.AlgebraicClosure> x
+5x^2z^2+4xz^2+2xy^2z+3xyz+7x^4+6x^3+1
+*Algebra.AlgebraicClosure> let t = x
+*Algebra.AlgebraicClosure> t
+5x^2z^2+4xz^2+2xy^2z+3xyz+7x^4+6x^3+1
+*Algebra.AlgebraicClosure> homogenize t
+[1,6x^3,7x^4,3xyz,2xy^2z,4xz^2,5x^2z^2]
+*Algebra.AlgebraicClosure> toLIst t
+
+<interactive>:1:0: Not in scope: `toLIst'
+*Algebra.AlgebraicClosure> toList t
+
+<interactive>:1:0: Not in scope: `toList'
+*Algebra.AlgebraicClosure> (\(M m) -> toList m) t
+
+<interactive>:1:11: Not in scope: `toList'
+*Algebra.AlgebraicClosure> (\(M m) -> Map.toList m) t
+[(,1),(x^3,6),(x^4,7),(xyz,3),(xy^2z,2),(xz^2,4),(x^2z^2,5)]
+*Algebra.AlgebraicClosure>:r
+[15 of 18] Compiling Algebra.MPoly    ( Algebra/MPoly.hs, interpreted )
+
+Algebra/MPoly.hs:276:103:
+    Not in scope: type constructor or class `Len'
+Failed, modules loaded: Algebra.Q, Algebra.Z, Algebra.Ideals, Algebra.Structures.Rings, Algebra.Structures.EuclideanDomains, Algebra.Structures.Coherent, Algebra.Matrix, Algebra.Structures.StronglyDiscrete, Algebra.Structures.BezoutDomains, Algebra.PLM, Algebra.Structures.PruferDomains, Algebra.Structures.Groups, Algebra.TypeString.Char, Algebra.Monomial.
+*Algebra.Q> :r
+[15 of 18] Compiling Algebra.MPoly    ( Algebra/MPoly.hs, interpreted )
+
+Algebra/MPoly.hs:276:103:
+    Not in scope: type constructor or class `Len'
+Failed, modules loaded: Algebra.Q, Algebra.Z, Algebra.Ideals, Algebra.Structures.Rings, Algebra.Structures.EuclideanDomains, Algebra.Structures.Coherent, Algebra.Matrix, Algebra.Structures.StronglyDiscrete, Algebra.Structures.BezoutDomains, Algebra.PLM, Algebra.Structures.PruferDomains, Algebra.Structures.Groups, Algebra.TypeString.Char, Algebra.Monomial.
+*Algebra.Q> :r
+[15 of 18] Compiling Algebra.MPoly    ( Algebra/MPoly.hs, interpreted )
+
+Algebra/MPoly.hs:276:103:
+    Not in scope: type constructor or class `Len'
+Failed, modules loaded: Algebra.Q, Algebra.Z, Algebra.Ideals, Algebra.Structures.Rings, Algebra.Structures.EuclideanDomains, Algebra.Structures.Coherent, Algebra.Matrix, Algebra.Structures.StronglyDiscrete, Algebra.Structures.BezoutDomains, Algebra.PLM, Algebra.Structures.PruferDomains, Algebra.Structures.Groups, Algebra.TypeString.Char, Algebra.Monomial.
+*Algebra.Q> :r
+[15 of 18] Compiling Algebra.MPoly    ( Algebra/MPoly.hs, interpreted )
+
+Algebra/MPoly.hs:276:103:
+    Not in scope: type constructor or class `Len'
+Failed, modules loaded: Algebra.Q, Algebra.Z, Algebra.Ideals, Algebra.Structures.Rings, Algebra.Structures.EuclideanDomains, Algebra.Structures.Coherent, Algebra.Matrix, Algebra.Structures.StronglyDiscrete, Algebra.Structures.BezoutDomains, Algebra.PLM, Algebra.Structures.PruferDomains, Algebra.Structures.Groups, Algebra.TypeString.Char, Algebra.Monomial.
+*Algebra.Q> :r
+[15 of 18] Compiling Algebra.MPoly    ( Algebra/MPoly.hs, interpreted )
+
+Algebra/MPoly.hs:276:103:
+    Not in scope: type constructor or class `Len'
+Failed, modules loaded: Algebra.Q, Algebra.Z, Algebra.Ideals, Algebra.Structures.Rings, Algebra.Structures.EuclideanDomains, Algebra.Structures.Coherent, Algebra.Matrix, Algebra.Structures.StronglyDiscrete, Algebra.Structures.BezoutDomains, Algebra.PLM, Algebra.Structures.PruferDomains, Algebra.Structures.Groups, Algebra.TypeString.Char, Algebra.Monomial.
+*Algebra.Q> :r
+[15 of 18] Compiling Algebra.MPoly    ( Algebra/MPoly.hs, interpreted )
+[16 of 18] Compiling Algebra.UPoly    ( Algebra/UPoly.hs, interpreted )
+[17 of 18] Compiling Algebra.FormalPowerSeries ( Algebra/FormalPowerSeries.hs, interpreted )
+
+Algebra/FormalPowerSeries.hs:41:9:
+    Warning: No explicit method nor default method for `abs'
+    In the instance declaration for `Num (PSeries a x)'
+
+Algebra/FormalPowerSeries.hs:41:9:
+    Warning: No explicit method nor default method for `signum'
+    In the instance declaration for `Num (PSeries a x)'
+[18 of 18] Compiling Algebra.AlgebraicClosure ( Algebra/AlgebraicClosure.hs, interpreted )
+Ok, modules loaded: Algebra.UPoly, Algebra.Q, Algebra.Z, Algebra.Ideals, Algebra.Structures.Rings, Algebra.Structures.EuclideanDomains, Algebra.Structures.Coherent, Algebra.Matrix, Algebra.Structures.StronglyDiscrete, Algebra.Structures.BezoutDomains, Algebra.PLM, Algebra.Structures.PruferDomains, Algebra.Structures.Groups, Algebra.TypeString.Char, Algebra.MPoly, Algebra.Monomial, Algebra.AlgebraicClosure, Algebra.FormalPowerSeries.
+*Algebra.AlgebraicClosure> tst
+5x^2z^2+4xz^2+2xy^2z+3xyz+7x^4+6x^3+1
+*Algebra.AlgebraicClosure> homogenize tst
+[1,6x^3,7x^4,3xyz,2xy^2z,4xz^2,5x^2z^2]
+*Algebra.AlgebraicClosure> let sum x = foldr (<+>) zero x
+*Algebra.AlgebraicClosure> let f = (Mon l1,_) (Mon l2,_) = sum l1 == sum l2
+
+<interactive>:1:30: parse error on input `='
+*Algebra.AlgebraicClosure> let f (Mon l1,_) (Mon l2,_) = sum l1 == sum l2
+*Algebra.AlgebraicClosure> let tt = (\(M m) -> Map.toList) tst
+*Algebra.AlgebraicClosure> tt
+
+<interactive>:1:0:
+    No instance for (Show (Map k a -> [(k, a)]))
+      arising from a use of `print' at <interactive>:1:0-1
+    Possible fix:
+      add an instance declaration for (Show (Map k a -> [(k, a)]))
+    In a stmt of a 'do' expression: print it
+*Algebra.AlgebraicClosure> groupBy f tt
+
+<interactive>:1:10:
+    Couldn't match expected type `[(Monomial t, t1)]'
+           against inferred type `Map k a -> [(k, a)]'
+    In the second argument of `groupBy', namely `tt'
+    In the expression: groupBy f tt
+    In the definition of `it': it = groupBy f tt
+*Algebra.AlgebraicClosure> tt tst
+
+<interactive>:1:3:
+    Couldn't match expected type `Map k a'
+           against inferred type `MPoly Q Len'
+    In the first argument of `tt', namely `tst'
+    In the expression: tt tst
+    In the definition of `it': it = tt tst
+*Algebra.AlgebraicClosure> :t tt
+tt :: Map k a -> [(k, a)]
+*Algebra.AlgebraicClosure> let tt = (\(M m) -> Map.toList m) tst
+*Algebra.AlgebraicClosure> tt
+[(,1),(x^3,6),(x^4,7),(xyz,3),(xy^2z,2),(xz^2,4),(x^2z^2,5)]
+*Algebra.AlgebraicClosure> groupBy f tt
+[[(,1)],[(x^3,6)],[(x^4,7)],[(xyz,3)],[(xy^2z,2)],[(xz^2,4)],[(x^2z^2,5)]]
+*Algebra.AlgebraicClosure> foldr (+) 0 [1,0,1,0,1,0]
+3
+*Algebra.AlgebraicClosure> Mon [1,0,1]
+
+<interactive>:1:0:
+    Ambiguous type variable `ord' in the constraint:
+      `Order ord' arising from a use of `print' at <interactive>:1:0-10
+    Probable fix: add a type signature that fixes these type variable(s)
+*Algebra.AlgebraicClosure> let x1=Mon [1,0,1] :: Mon Len
+
+<interactive>:1:22: Not in scope: type constructor or class `Mon'
+*Algebra.AlgebraicClosure> let x1=Mon [1,0,1] :: Monomial Len
+*Algebra.AlgebraicClosure> x1
+xz
+*Algebra.AlgebraicClosure> let x1=Mon [0,2,0] :: Monomial Len
+*Algebra.AlgebraicClosure> let x2=Mon [1,0,1] :: Monomial Len
+*Algebra.AlgebraicClosure> x1
+y^2
+*Algebra.AlgebraicClosure> x1
+y^2
+*Algebra.AlgebraicClosure> f (x1,3) (x2,4)
+True
+*Algebra.AlgebraicClosure> let ls=[(x1,3), (x2,4)]
+*Algebra.AlgebraicClosure> groupBy f ls
+[[(y^2,3),(xz,4)]]
+*Algebra.AlgebraicClosure> tt
+[(,1),(x^3,6),(x^4,7),(xyz,3),(xy^2z,2),(xz^2,4),(x^2z^2,5)]
+*Algebra.AlgebraicClosure> groupBy f tt
+[[(,1)],[(x^3,6)],[(x^4,7)],[(xyz,3)],[(xy^2z,2)],[(xz^2,4)],[(x^2z^2,5)]]
+*Algebra.AlgebraicClosure> x1
+y^2
+*Algebra.AlgebraicClosure> x2
+xz
+*Algebra.AlgebraicClosure> let ls2 = ls:(Mon [1,0,3] :: Monomial Len)
+
+<interactive>:1:14:
+    Couldn't match expected type `[[(Monomial Len, Integer)]]'
+           against inferred type `Monomial Len'
+    In the second argument of `(:)', namely
+        `(Mon [1, 0, 3] :: Monomial Len)'
+    In the expression: ls : (Mon [1, 0, 3] :: Monomial Len)
+    In the definition of `ls2':
+        ls2 = ls : (Mon [1, 0, 3] :: Monomial Len)
+*Algebra.AlgebraicClosure> let x3 = Mon [1,0,3] :: Monomial Len
+*Algebra.AlgebraicClosure> let ls2=x3:ls
+
+<interactive>:1:11:
+    Couldn't match expected type `Monomial Len'
+           against inferred type `(Monomial Len, Integer)'
+      Expected type: [Monomial Len]
+      Inferred type: [(Monomial Len, Integer)]
+    In the second argument of `(:)', namely `ls'
+    In the expression: x3 : ls
+*Algebra.AlgebraicClosure> let ls2=(x3,12):ls
+*Algebra.AlgebraicClosure> ls2
+[(xz^3,12),(y^2,3),(xz,4)]
+*Algebra.AlgebraicClosure> groupBy f ls2
+[[(xz^3,12)],[(y^2,3),(xz,4)]]
+*Algebra.AlgebraicClosure> tt
+[(,1),(x^3,6),(x^4,7),(xyz,3),(xy^2z,2),(xz^2,4),(x^2z^2,5)]
+*Algebra.AlgebraicClosure> groupBy f tt
+[[(,1)],[(x^3,6)],[(x^4,7)],[(xyz,3)],[(xy^2z,2)],[(xz^2,4)],[(x^2z^2,5)]]
+*Algebra.AlgebraicClosure> map (\(Mon l,x) -> (l,x)) tt
+[([],1),([3],6),([4],7),([1,1,1],3),([1,2,1],2),([1,0,2],4),([2,0,2],5)]
+*Algebra.AlgebraicClosure> groupBy (\(x,y)(w,z) -> foldr (+) x == foldr (+) w) 
+
+<interactive>:1:24:
+    No instance for (Eq ([a] -> a))
+      arising from a use of `==' at <interactive>:1:24-49
+    Possible fix: add an instance declaration for (Eq ([a] -> a))
+    In the expression: foldr (+) x == foldr (+) w
+    In the first argument of `groupBy', namely
+        `(\ (x, y) (w, z) -> foldr (+) x == foldr (+) w)'
+    In the expression:
+        groupBy (\ (x, y) (w, z) -> foldr (+) x == foldr (+) w)
+*Algebra.AlgebraicClosure> let f2=groupBy (\(x,y)(w,z) -> foldr (+) x == foldr (+) w) 
+
+<interactive>:1:31:
+    No instance for (Eq ([a] -> a))
+      arising from a use of `==' at <interactive>:1:31-56
+    Possible fix: add an instance declaration for (Eq ([a] -> a))
+    In the expression: foldr (+) x == foldr (+) w
+    In the first argument of `groupBy', namely
+        `(\ (x, y) (w, z) -> foldr (+) x == foldr (+) w)'
+    In the expression:
+        groupBy (\ (x, y) (w, z) -> foldr (+) x == foldr (+) w)
+*Algebra.AlgebraicClosure> ttt=map (\(Mon l,x) -> (l,x)) tt
+
+<interactive>:1:3: parse error on input `='
+*Algebra.AlgebraicClosure> let ttt=map (\(Mon l,x) -> (l,x)) tt
+*Algebra.AlgebraicClosure> groupBy (\(x,y)(w,z) -> foldr (+) x == foldr (+) w) ttt
+
+<interactive>:1:24:
+    No instance for (Eq ([[Integer]] -> [Integer]))
+      arising from a use of `==' at <interactive>:1:24-49
+    Possible fix:
+      add an instance declaration for (Eq ([[Integer]] -> [Integer]))
+    In the expression: foldr (+) x == foldr (+) w
+    In the first argument of `groupBy', namely
+        `(\ (x, y) (w, z) -> foldr (+) x == foldr (+) w)'
+    In the expression:
+        groupBy (\ (x, y) (w, z) -> foldr (+) x == foldr (+) w) ttt
+
+<interactive>:1:30:
+    No instance for (Num [Integer])
+      arising from a use of `+' at <interactive>:1:30-32
+    Possible fix: add an instance declaration for (Num [Integer])
+    In the first argument of `foldr', namely `(+)'
+    In the first argument of `(==)', namely `foldr (+) x'
+    In the expression: foldr (+) x == foldr (+) w
+*Algebra.AlgebraicClosure> groupBy (\(x,y)(w,z) -> foldr (+) zero x == foldr (+) zero w) ttt
+[[([],1)],[([3],6)],[([4],7)],[([1,1,1],3)],[([1,2,1],2)],[([1,0,2],4)],[([2,0,2],5)]]
+*Algebra.AlgebraicClosure> groupBy (\(x,y)(w,z) -> foldr (+) 0 x == foldr (+) 0 w) ttt
+[[([],1)],[([3],6)],[([4],7)],[([1,1,1],3)],[([1,2,1],2)],[([1,0,2],4)],[([2,0,2],5)]]
+*Algebra.AlgebraicClosure> tt
+[(,1),(x^3,6),(x^4,7),(xyz,3),(xy^2z,2),(xz^2,4),(x^2z^2,5)]
+*Algebra.AlgebraicClosure> ttt
+[([],1),([3],6),([4],7),([1,1,1],3),([1,2,1],2),([1,0,2],4),([2,0,2],5)]
+*Algebra.AlgebraicClosure> sum [1,2,3]
+6
+*Algebra.AlgebraicClosure> groupBy (\(x,y)(w,z) -> sum x == sum y) ttt

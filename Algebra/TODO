@@ -1,0 +1,41 @@
+TODO:
+
+Add exports to all files.
+Add Eq instance for relevant ideals.
+  -- Done for MPoly.
+Add more relevant and explanatory examples.
+Fix strongly discrete instance for MPoly.
+Add Groebner basis computation that computes witness also.
+Fix bug in intersectionB. 
+Add versions of all computations that don't compute witnesses.
+Fix bug in Prufer domain intersection.
+Add more things to README.hs
+
+Maybe do:
+
+Restructure and add instances/ and move all instances of algebraic structures to this folder.
+Use gb from HaskellForMaths instead.
+Find a better implementation of matrices. 
+
+Done:
+
+Implement and specify principal localization matrices (PLM). 
+Implement the algorithm for computing PLM for Bezout domains.
+Implement the algorithm for computing PLM for Prüfer domains.
+Implement the algorithm to solve arbitrary systems.
+Prove that if I `int` J is f.g. then the ring is coherent.
+Prove that k[x1..xn] is coherent.
+Prove that Bezout domains are coherent.
+Show that Bezout domains are Prüfer domains.
+Show that Prüfer domains are coherent. 
+Field -> Commutative ring for UPoly.
+Field -> Commutative ring for MPoly.
+Fix the bug in MPoly coherence proof.
+Fix the bug in MxN solver.
+Add one to Ring.
+Remove "deriving Eq" for ideals.
+Add Monomials.hs and move all monomial related stuff from MPoly there.
+Combine Buchberger and MPoly. 
+Fix bugs in UPoly so that the properties work again.
+Rewrite Matrix.hs
+Add strongly discrete instance for euclidean domains.

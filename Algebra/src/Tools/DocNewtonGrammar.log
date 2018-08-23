@@ -1,0 +1,137 @@
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009) (format=latex 2010.5.14)  7 JUN 2010 16:14
+entering extended mode
+ %&-line parsing enabled.
+**DocNewtonGrammar.tex
+(./DocNewtonGrammar.tex
+LaTeX2e <2009/09/24>
+Babel <v3.8l> and hyphenation patterns for english, usenglishmax, dumylang, noh
+yphenation, german-x-2009-06-19, ngerman-x-2009-06-19, ancientgreek, ibycus, ar
+abic, basque, bulgarian, catalan, pinyin, coptic, croatian, czech, danish, dutc
+h, esperanto, estonian, farsi, finnish, french, galician, german, ngerman, mono
+greek, greek, hungarian, icelandic, indonesian, interlingua, irish, italian, ku
+rmanji, latin, latvian, lithuanian, mongolian, mongolian2a, bokmal, nynorsk, po
+lish, portuguese, romanian, russian, sanskrit, serbian, slovak, slovenian, span
+ish, swedish, turkish, ukenglish, ukrainian, uppersorbian, welsh, loaded.
+
+(/usr/local/texlive/2009/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2007/10/19 v1.4h Standard LaTeX document class
+(/usr/local/texlive/2009/texmf-dist/tex/latex/base/size11.clo
+File: size11.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@section=\count80
+\c@subsection=\count81
+\c@subsubsection=\count82
+\c@paragraph=\count83
+\c@subparagraph=\count84
+\c@figure=\count85
+\c@table=\count86
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+) (./DocNewtonGrammar.aux)
+\openout1 = `DocNewtonGrammar.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 9.
+LaTeX Font Info:    ... okay on input line 9.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 9.
+LaTeX Font Info:    ... okay on input line 9.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 9.
+LaTeX Font Info:    ... okay on input line 9.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 9.
+LaTeX Font Info:    ... okay on input line 9.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 9.
+LaTeX Font Info:    ... okay on input line 9.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 9.
+LaTeX Font Info:    ... okay on input line 9.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <12> on input line 11.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 11.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 11.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <10.95> on input line 27.
+
+Underfull \hbox (badness 10000) in paragraph at lines 35--36
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 37--38
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 39--40
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 41--46
+
+ []
+
+[1
+
+]
+Underfull \hbox (badness 10000) in paragraph at lines 51--55
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 56--60
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 61--64
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 65--69
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 70--75
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 76--79
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 80--83
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 84--88
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 89--93
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 94--98
+
+ []
+
+[2] (./DocNewtonGrammar.aux) ) 
+Here is how much of TeX's memory you used:
+ 245 strings out of 493849
+ 2738 string characters out of 3149230
+ 54936 words of memory out of 3000000
+ 3595 multiletter control sequences out of 15000+200000
+ 9370 words of font info for 33 fonts, out of 3000000 for 9000
+ 714 hyphenation exceptions out of 8191
+ 21i,9n,19p,385b,185s stack positions out of 5000i,500n,10000p,200000b,50000s
+
+Output written on DocNewtonGrammar.dvi (2 pages, 3756 bytes).

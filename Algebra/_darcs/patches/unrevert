@@ -1,0 +1,742 @@
+
+New patches:
+
+[unrevert
+anon**20101010234643
+ Ignore-this: de0492cf8ab56a1417548a7d449cf04b
+] hunk ./src/Algebra/AlgebraicClosure.hs 16
+ import qualified Algebra.UPoly as UPoly 
+ import Algebra.UPoly hiding (sqfrDec, sqfr)
+ import Algebra.TypeString.Char hiding (Q, R, S)
++import Control.Monad.State.Strict
+ 
+ 
+hunk ./src/Algebra/AlgebraicClosure.hs 19
+--- | The type of states
+-newtype ST s a = ST { runState :: s -> [(s,a)] }
+-
+--- | get extracts the state from the monad
+-get :: ST s s
+-get = ST $ \s-> [(s,s)]
+--- | puts a state
+-put :: s -> ST s ()
+-put s = ST $ \_-> [(s,())]
+-
++type ST = State 
+ -- | putUg puts both a state and a single value
+hunk ./src/Algebra/AlgebraicClosure.hs 21
+-putBoth :: s -> a -> ST s a
+-putBoth s a = ST $ \_-> [(s,a)]
+-
+--- | putD puts two states
+-putD :: s -> s -> ST s ()
+-putD s1 s2 = ST $ \_->[(s1,()), (s2,())]
++putBoth :: s -> a -> State s a
++putBoth s a = State $ \_-> (a,s)
+ 
+hunk ./src/Algebra/AlgebraicClosure.hs 24
+--- | putDUg puts two states and two values
+-putDBoth :: s -> s -> a -> a -> ST s a
+-putDBoth s1 s2 q1 q2 = ST $ \_-> [(s1,q1),(s2,q2)]
+ 
+ -- | Applies the state type to a state. used to run the monad computation
+hunk ./src/Algebra/AlgebraicClosure.hs 26
+-apply :: ST s a -> s -> [(s,a)]
+-apply m s = runState m s 
+-
+--- | The monad type of states
+-instance Monad (ST s) where
+-  (ST p) >>= k = ST (\s0 -> let as = p s0 in
+-                              concatMap (\(st,vl) -> runState (k vl) st) as)
+-  return a = ST (\s -> [(s,a)])
++apply :: State s a -> s -> (s,a)
++apply m s = (x,y) 
++    where (y,x) = runState m s 
+ 
+ 
+ 
+hunk ./src/Algebra/AlgebraicClosure.hs 120
+ -- | inverse is the witness that R k is a field. an element x in a field is either invertible or is zero
+ -- i.e. either Left () or Right 1/x
+ inverse :: (Field k, Eq k, Show k) => R k -> ST (S k) (Either () (R k))
+-inverse i | (ord' i) == 0 = ST (\st -> [(st, if lc i == zero then Left () else Right $ toMPoly [(inv $ lc i,[])])])
++inverse i | (ord' i) == 0 = State (\st -> (if lc i == zero then Left () else Right $ toMPoly [(inv $ lc i,[])], st))
+           | otherwise     = do st <- get 
+                                let n = ord' i
+                                let m = rank st
+hunk ./src/Algebra/AlgebraicClosure.hs 136
+                                               True  -> case g_deg == p_deg of
+                                                          False -> do updateState n $ mpoly' g
+                                                                      s1 <- get
++                                                                     --return $ Left ()
+                                                                      put st
+                                                                      updateState n $ mpoly' p'
+                                                                      s2 <- get
+hunk ./src/Algebra/AlgebraicClosure.hs 144
+                                                                      Right yinv <- inverse $ mpoly' y
+                                                                      let t = (mpoly' e) <*> (yinv) <*> (mpoly' s)
+                                                                      tmod <- modPrevState t
+-                                                                     putDBoth s1 s2 (Left ()) (Right tmod)
++                                                                     putBoth s2 (Right tmod)
+                                                          True -> return $ Left ()
+                                               False -> do Right ginv <- inverse $ mpoly' g
+                                                           t <- modPrevState $ (mpoly' s) <*> ginv
+hunk ./src/Algebra/AlgebraicClosure.hs 210
+ --abbrev for tuples
+ type Tup a = (a,a)
+ 
++-- it's safe to take on brach either the zero or the inveritble. for newton .
+ -- | quotient remainder, cheaper than gcd
+ qr :: (Field k, Eq k, Show k) => UPoly (R k) x -> UPoly (R k) x -> ST (S k) (UPoly (R k) x, UPoly (R k) x)
+ qr p q = do (ps,p_deg) <- iDeg p
+hunk ./src/Algebra/AlgebraicClosure.hs 220
+              _       -> do case (p_deg < q_deg) of 
+                             True  -> return (zero, ps)
+                             False ->  do Right invLtQs <- inverse $ UPoly.lt qs
+-                                         let t  = UPoly.lt ps <*> invLtQs
++                                         let t  = UPoly.lt ps <*> invLtQs -- if the state is monic
++                                                                          -- no need to call invLtQS (monadic)
++                                                                          -- only normal quotient remainder
+                                          let l  = fromInteger $ p_deg - q_deg
+                                          let t' = UP $ replicate l zero ++ [t]
+                                          let q2  = t' <*> qs
+hunk ./src/Algebra/AlgebraicClosure.hs 265
+                                                                       let (q2,q2',p2') = (t' <*> qs, t' <*> q', t' <*> p')
+                                                                       iGCD' (ps <-> q2) qs (r <-> q2', s <-> p2') (q',p') 
+ 
++-- computation of inverse of the leading coefficient ( of qs )is done twice in the first and third condition  
+ -- | computes the degree of a polynomial, returning both the degree and a modified polynomial
+ iDeg :: (Field k, Eq k, Show k) => UPoly (R k) x -> ST (S k) (UPoly (R k) x, Integer)
+ iDeg p@(UP xs) = do case xs of
+hunk ./src/Algebra/AlgebraicClosure.hs 477
+ aks1_state = [aks1_s0,aks1_s1,aks1_s2]
+ aks1_ele :: R Q
+ aks1_ele = toMPoly [(1,[1]),(-1,[0,1])]
++
++-- X^2 - 2 X + 1 = 0
+ {- pass
+ [
+ ([x^3-x^2-2x+1,-y+x,z^3-z^2-2z+1],Left ()),
+hunk ./src/Algebra/HenselLemma.hs 1
+-{-# LANGUAGE ScopedTypeVariables, FlexibleContexts, FlexibleInstances #-}
++{-# LANGUAGE ScopedTypeVariables, FlexibleContexts, FlexibleInstances, BangPatterns #-}
+ module Algebra.HenselLemma where
+ import Algebra.MPoly
+ import Algebra.MonadicFormalPowerSeries
+hunk ./src/Algebra/HenselLemma.hs 13
+ import Algebra.TypeString.Char hiding (Q,F,E,R,S)
+ import qualified Data.List as Lst
+ import Prelude hiding (map,repeat,zipWith,head,tail)
+-import Control.Monad
++import Control.Monad.State.Strict
++
+ 
+ -- | the type of polynomials with power series coeff
+ type F m a x y = UPoly (PSeries m a x) y 
+hunk ./src/Algebra/HenselLemma.hs 21
+ -- | the type of power series with polynomial coeff
+ type E m a y x = PSeries m (UPoly a y) x
+ 
+---test case
+-a_2X :: PSeries (ST s) (R Q) X_
+-a_2X = one
+-a_1X :: PSeries (ST s) (R Q) X_
+-a_1X = PS $ ll[toMPoly [(-4,[])], toMPoly [(-2,[])]]
+-a_0X :: PSeries (ST s) (R Q) X_
+-a_0X = PS $ ll[toMPoly [(3,[])], toMPoly [(6,[])]]
+-fXY :: F (ST s) (R Q) X_ Y_
+-fXY = UP [a_0X, a_1X, a_2X]
+-
+-fY1 :: UPoly (R Q) Y_
+-fY1 = UP $ [toMPoly [(-1,[])],toMPoly[(1,[])]]
+-fY2 :: UPoly (R Q) Y_
+-fY2 = UP $ [toMPoly[(-3,[])],toMPoly [(1,[])]]
+-
+-
+ -- | the degree of a polynomial with power series coeff
+ ydeg :: (Monad m, CommutativeRing a) => F m a x y -> Int
+ ydeg (UP as) | length as > 0 = length as - 1
+hunk ./src/Algebra/HenselLemma.hs 61
+                         tl' [] = []
+                         tl' (a:xs) = xs
+ 
++
+ -- | Hensel's lemma
+hunk ./src/Algebra/HenselLemma.hs 63
+-lemma :: (Field k, Eq k, Show k) => F (ST (S k)) (R k) x y -> UPoly (R k) y -> UPoly (R k) y -> ST (S k) (F (ST (S k)) (R k) x y, F (ST (S k)) (R k) x y)
++lemma :: (Field k, Eq k, Show k) => F (ST (S k)) (R k) x y 
++                                    -> UPoly (R k) y 
++                                    -> UPoly (R k) y 
++                                    -> ST (S k) (F (ST (S k)) (R k) x y, F (ST (S k)) (R k) x y)
+ lemma fXY g_0 h_0 = do z <- iszero ((g_0 <*> h_0) <-> proj_y fXY)  
+                        case z of 
+hunk ./src/Algebra/HenselLemma.hs 69
+-                        False -> error ("polynomial is not monic or factors aren't correct (" ++ show (fromUPoly g_0) ++ ")" ++ show (fromUPoly h_0))
++                        False -> error ("polynomial is not monic or factors aren't correct")
+                         True  -> do (hi , gi, gc, p, q) <- iGCD g_0 h_0
+                                     (gc, gc_deg) <- iDeg gc 
+                                     case gc_deg == 0 of 
+hunk ./src/Algebra/HenselLemma.hs 74
+                                      False -> error "factors are not coprime" 
+-                                     True  -> do let (gyx, hyx) = gYXhYX (phi fXY) g_0 h_0 gi hi
++                                     True  -> do let (!gyx, !hyx) = gYXhYX (phi fXY) g_0 h_0 gi hi
+                                                  return (psi (deg g_0) gyx, psi (deg h_0) hyx)
+ --the two factors as power series
+hunk ./src/Algebra/HenselLemma.hs 77
+-gYXhYX :: (Field k, Eq k, Show k) => E (ST (S k)) (R k) y x -> UPoly (R k) y -> UPoly (R k) y -> UPoly (R k) y -> UPoly (R k) y -> (E (ST (S k)) (R k) y x, E (ST (S k)) (R k) y x)
+-gYXhYX f g_0 h_0 gi hi = (PS $ Cons (g_0, tlG), PS $ Cons (h_0, tlH))
++gYXhYX :: (Field k, Eq k, Show k) => E (ST (S k)) (R k) y x 
++                                     -> UPoly (R k) y 
++                                     -> UPoly (R k) y 
++                                     -> UPoly (R k) y 
++                                     -> UPoly (R k) y -> (E (ST (S k)) (R k) y x, E (ST (S k)) (R k) y x)
++gYXhYX f !g_0 !h_0 !gi !hi = (PS $ Cons (g_0, tlG), PS $ Cons (h_0, tlH))
+                     where tlG    = liftM fromPS $ fstM tlGtlH
+                           tlH    = liftM fromPS $ sndM tlGtlH
+                           tlGtlH = tlGH f g_0 h_0 gi hi [] []
+hunk ./src/Algebra/HenselLemma.hs 88
+ 
+ --tails of the two power series factors
+-tlGH :: (Field k, Eq k, Show k) => E (ST (S k)) (R k) y x -> UPoly (R k) y -> UPoly (R k) y 
++tlGH :: (Field k, Eq k, Show k) => E (ST (S k)) (R k) y x 
++                                   -> UPoly (R k) y -> UPoly (R k) y 
+                                    -> UPoly (R k) y -> UPoly (R k) y 
+                                    -> [UPoly (R k) y] -> [UPoly (R k) y]
+                                    -> ST (S k) (E (ST (S k)) (R k) y x, E (ST (S k)) (R k) y x)
+hunk ./src/Algebra/HenselLemma.hs 94
+ 
+-tlGH f g_0 h_0 gi hi gs hs = do tlF <- tl f
+-                                let uq = aux tlF gs hs
+-                                (e1,e2)  <- (hi <*> uq) `qr` h_0
+-                                let g = (gi <*> uq) <+> (g_0 <*> e1)
+-                                let h = e2
+-                                let tlgh = tlGH tlF g_0 h_0 gi hi (g:gs) (h:hs)
+-                                return (PS $ Cons (g, liftM fromPS $ fstM tlgh), PS $ Cons(h, liftM fromPS $ sndM tlgh))
++tlGH f !g_0 !h_0 !gi !hi !gs !hs = do tlF <- tl f
++                                      let !uq = aux tlF gs hs
++                                      (e1,e2)  <- (hi <*> uq) `qr` h_0
++                                      let !g = (gi <*> uq) <+> (g_0 <*> e1)
++                                      let !h = e2
++                                      let !tlgh = tlGH tlF g_0 h_0 gi hi (g:gs) (h:hs)
++                                      return (PS $ Cons (g, liftM fromPS $ fstM tlgh), PS $ Cons(h, liftM fromPS $ sndM tlgh))
+ 
+ 
+ --auxilary computation Uq = Fq - Sum_(i+j=q, i < q, j < q) Gi Hj 
+hunk ./src/Algebra/HenselLemma.hs 105
+ aux :: (Field k, Eq k, Show k) => E (ST (S k)) (R k) y x -> [UPoly (R k) y] -> [UPoly (R k) y] -> UPoly (R k) y
+-aux f gs hs | length hs == length gs = hd f <-> gh
+-            | otherwise = error " gs hs lengths should be euqal !"
+-                where hsi = reverse hs
+-                      gh  = Lst.foldr (<+>) zero $ Lst.zipWith (<*>) gs hsi
++aux f !gs !hs | length hs == length gs = hd f <-> gh
++              | otherwise = error " gs hs lengths should be euqal !"
++                 where hsi = reverse hs
++                       gh  = Lst.foldr (<+>) zero $ Lst.zipWith (<*>) gs hsi
+ 
+ 
+ 
+hunk ./src/Algebra/HenselLemma.hs 130
+                 
+ 
+ 
++testp :: UPoly (UPoly (R Q) X_) Y_
++testp = UP [zero, UP [toMPoly [(zero,[])], toMPoly [(zero,[])], toMPoly [(3,[])]], zero, UP [toMPoly [(one,[])]]]
++pre :: UPoly (R Q) x_
++pre = UP [toMPoly [(4,[])], zero, toMPoly[(1,[])]]
+ 
+hunk ./src/Algebra/HenselLemma.hs 135
++--test :: ST (S Q) (UPoly (R Q) Y_, UPoly (R Q) Y_)
++test = do r <- root pre
++          let p = UP [neg r, one]
++          q <- pre `quotient` p
++          --return (p, q)
++          lemma (UP $ Lst.map (\(UP x) -> PS $ ll x) (fromUPoly testp)) p q
+hunk ./src/Algebra/MonadicFormalPowerSeries.hs 1
+-{-# LANGUAGE ScopedTypeVariables, FlexibleContexts, UndecidableInstances, TypeSynonymInstances #-}
++{-# LANGUAGE ScopedTypeVariables, FlexibleContexts, UndecidableInstances, TypeSynonymInstances, BangPatterns#-}
+ module Algebra.MonadicFormalPowerSeries where
+ import Algebra.AlgebraicClosure
+ import qualified Control.Monad.State.Lazy
+hunk ./src/Algebra/MonadicFormalPowerSeries.hs 43
+ 
+ --normal map
+ map :: Monad m => (a -> b) -> Stream m a -> Stream m b
+-map f (Cons (a, as)) = Cons (f a, z')
++map f (Cons (!a, as)) = Cons (f a, z')
+                  where z' = do as' <- as
+                                return $ map f as'
+hunk ./src/Algebra/MonadicFormalPowerSeries.hs 46
+---map f (Cons (a, as)) = Cons (f a, ST $ \ s -> Lst.map (\(se,v) -> (se, map f v))(runState as s))
+ 
+ --zipWith
+ zipWith :: (Monad m) => (a -> b -> c) -> Stream m a -> Stream m b -> Stream m c
+hunk ./src/Algebra/MonadicFormalPowerSeries.hs 49
+-zipWith f (Cons (a,as)) (Cons (b,bs)) = Cons (f a b, z')
++zipWith f (Cons (!a,as)) (Cons (!b,bs)) = Cons (f a b, z')
+                                    where z' = do as' <- as
+                                                  bs' <- bs
+                                                  return $ zipWith f as' bs'
+hunk ./src/Algebra/MonadicFormalPowerSeries.hs 60
+ as <<+>> bs = zipWith (<+>) as bs
+ 
+ (<<*>>) :: (CommutativeRing a, Monad m) => Stream m a -> Stream m a -> Stream m a
+-(Cons (a, as)) <<*>> f@(Cons (b, bs)) = Cons ((a <*> b), z')
++(Cons (!a, as)) <<*>> f@(Cons (b, bs)) = Cons ((a <*> b), z')
+                            where z' = do bs' <- bs
+                                          as' <- as
+hunk ./src/Algebra/MonadicFormalPowerSeries.hs 63
+-                                         let d = map (a <*>) bs'
+-                                         let s = as' <<*>> f
++                                         let !d = map (a <*>) bs'
++                                         let !s = as' <<*>> f
+                                          return $ d <<+>> s
+ 
+ --stupid, just to make the instance num work
+hunk ./src/Algebra/MonadicFormalPowerSeries.hs 126
+ sndM :: (Monad m) => m (a,b) -> m b
+ sndM = Control.Monad.liftM snd
+ 
+---test termination mapMS and map
+--- mapMS  (head . snd . Lst.head) (apply (mapMS tt1 tt2) ())
+--- map  head (map ttx tt2)
+---zipWith ((head . snd . Lst.head))(apply (tail (zipWith (+) tt3 tt3)) ())
+--- !!!  apply (tt3 !!! 2) ()
+--- <<+>> head (tq2 <<+>> tq3)
+--- <<*>> head (tq2 <<*>> tq3)
+-ttx :: Int -> Int
+-
+-ttx = \n -> n+1
+-tt1 :: Int -> ST s Int
+-tt1 n = return $ n
+-
+-tt2 :: Stream (ST s) Int
+-tt2 = Cons (0, ST $ \ s -> [(s,tt3)])
+-
+-tt3 :: Stream (ST s) Int
+-tt3 = Cons (2, ST $ \ s -> [(s,tt2)])
+-
+-ttq1 :: (Field k, Eq k, Show k) => UPoly (R k) x -> ST (S k) (UPoly (R k) x)
+-ttq1 n = putDBoth [] [one] n (n <+> one) --return $ n
+-
+-
+-ttq6 :: (Field k, Eq k, Show k) => (R k) -> ST (S k) (R k)
+-ttq6 n = putDBoth [] [one] n (n <+> one) --return $ n
+-
+-ttq2 :: Stream (ST (S Q)) (R Q)
+-ttq2 = Cons (toMPoly [(2,[]),(1,[0,1])] :: (R Q) , ST $ \ s -> [(s,ttq3)]) 
+-
+-ttq3 :: Stream (ST (S Q)) (R Q)
+-ttq3 = Cons (toMPoly [(1,[]),(2,[0,1])] :: (R Q) , ST $ \ s -> [(s,ttq2)]) 
+-
+-tq2 :: Stream (ST s) (R Q)
+-tq2 = Cons (toMPoly [(1,[])] :: R Q, ST $ \ s -> [(s,tq3)])
+-
+-tq3 :: Stream (ST s) (R Q)
+-tq3 = Cons (toMPoly [(2,[])] :: R Q, ST $ \ s -> [(s,tq2)])
+-
+-tx :: Int -> Int
+-tx = \n -> n+1
+-
+-t1 :: Int -> Duhl Int
+-t1 n = return $ n+1
+-
+-t2 :: Stream Duhl Int
+-t2 = Cons (0, Duhl t2)
+-
+-t3 :: Stream Duhl Int
+-t3 = Cons (2, Duhl t2)
+-
+-ttq2' :: Stream Duhl Q
+-ttq2' = Cons (0 :: Q, Duhl ttq2')
+-
+-ttq3' :: Stream Duhl Q
+-ttq3' = Cons (2 :: Q, Duhl ttq2')
+-
+-newtype Duhl a = Duhl a
+-unDuhl (Duhl a) = a
+-instance Monad Duhl where
+-  (Duhl f) >>= k = k f
+-  return a = Duhl a
+-
+ instance (Monad m, Show a) => Show (Stream m a) where
+   show (Cons (a, as)) = show a
+hunk ./src/Algebra/NewtonTheorem.hs 111
+                 where coeff  c  n  k xs | k < 0 = xs
+                                         | otherwise = coeff c n (k-1) $ fromInteger (n `nCr` k) <*> (c <^> k) : xs
+ 
++-- ask patrik and ulf about the inefficiency. trace of the program.
+ -- | adds a value to the roots of the polynomial
+ addToRoot :: (CommutativeRing r, Num r) => UPoly r x -> r -> UPoly r x
+ addToRoot  f@(UP p)  c | deg f == 1 = f
+hunk ./src/Algebra/NewtonTheorem.hs 232
+ 
+ test7 :: UPoly (UPoly Q R_) V_
+ test7 = UP [UP[0,0,0,0,1], neg $ UP[0,0,0,1/2], UP[0,0,1], neg $ UP [0,1/2], zero, UP[1]]
+-
++-- 2 X^4 - X^3 Y + 2 X^2 Y^2 - 1 X Y^3 + 2 Y^5
+ test8 :: UPoly (UPoly Q R_) V_
+ test8 = UP [UP[0,0,0,0,1], neg $ UP[0,0,0,1], UP[0,0,1], neg $ UP [0,1], zero, UP[1]]
+hunk ./src/Algebra/NewtonTheorem.hs 235
+-
++-- X^4 - X^3 Y + X^2 Y^2 - X Y^3 + Y^5
+ test9 :: UPoly (UPoly Q R_) V_
+ test9 = UP [neg $ UP [0,0,1,1],zero, one]
+ 
+hunk ./src/Tools/NewtonMain.hs 54
+           parsedPoly <- parse pYP polyStr1
+           let p = absToPoly parsedPoly
+           let result = apply (run $ newton p) []
+-          putStrLn $ unlines $ pretPrin result
+-          main
++          putStrLn $  pretPrin result
++          --main
+ 
+hunk ./src/Tools/NewtonMain.hs 57
+-pretPrin :: [(S Q, (Q, [UPoly (UPoly (R Q) V_) W_]))] -> [String]
+-pretPrin = map pp1
++pretPrin :: (S Q, (Q, [UPoly (UPoly (R Q) V_) W_])) -> String
++pretPrin =  pp1
+ 
+ pp1 :: (S Q, (Q, [UPoly (UPoly (R Q) V_) W_])) -> String
+ pp1 (state, res) = "State: " ++ pp2 state ++ "\n" ++ "Result: " ++ pp3 res ++ "\n"
+hunk ./src/Tools/NewtonMain.hs 183
+ coeffToQ :: Coeff -> Q
+ coeffToQ (CoeffR i j) = coeffToQ i <*> (inv $ coeffToQ j)
+ coeffToQ (CoeffI i)   = toQ i
++
+
+Context:
+
+[some cleanup
+bassel@student.chalmers.se**20100608202541
+ Ignore-this: 7afa74c114560d12b8ece1dec77e8ced
+] 
+[better printout
+bassel@student.chalmers.se**20100607231331
+ Ignore-this: b7442e75b4245f229603e5da7f4da32b
+] 
+[UI for newton
+bassel@student.chalmers.se**20100607225137
+ Ignore-this: 5c6b6d27f000681f7d5f7386d3c1eefc
+] 
+[parser for newton
+bassel@student.chalmers.se**20100607180713
+ Ignore-this: a31a35efa4bcee606278d00f283167
+] 
+[performance enhancement
+bassel@student.chalmers.se**20100603171214
+ Ignore-this: 4f5317f2e97504eee470187ff066a81a
+] 
+[newton theorem more test cases
+bassel@student.chalmers.se**20100530124915
+ Ignore-this: 380d2bfd7dbf67b71156865b9b6ad4ac
+] 
+[cleaner version (changes to root reverted at each step)
+bassel@student.chalmers.se**20100530095800
+ Ignore-this: d58a6533afe91267a545832ce675be88
+] 
+[cleanup
+bassel@student.chalmers.se**20100529230925
+ Ignore-this: 2eadf0183d88d16ddf31fa0a20515d60
+] 
+[cleanup
+bassel@student.chalmers.se**20100529225133
+ Ignore-this: b038daee1ee2cbfe84fe67a5577e6964
+] 
+[fixed pug!
+bassel@student.chalmers.se**20100529223037
+ Ignore-this: 68d2fa8c20bac8a26191f8aab1c43481
+] 
+[added modState adjustment
+bassel@student.chalmers.se**20100529154036
+ Ignore-this: 3f07ba6294a20dcf64f60871df2be284
+] 
+[minor changes
+bassel@student.chalmers.se**20100529142543
+ Ignore-this: bbcce78f4c545e3ed8bf4753cd810ba2
+] 
+[NewtonTheorem (Probably working - testing underway)
+bassel@student.chalmers.se**20100529131615
+ Ignore-this: 90b55b935ad04e4d7a299265c9e94989
+] 
+[NewtonTheorem WIP
+bassel@student.chalmers.se**20100529083646
+ Ignore-this: f0ec1e0ef2988770602e732f4e765a0d
+] 
+[NewtonTheorem and some cleanup
+bassel@student.chalmers.se**20100524135328
+ Ignore-this: fb60e59ec837849bc6537908fd2ce13e
+] 
+[Some small fixes
+mortberg@student.chalmers.se**20100516201638
+ Ignore-this: 5fc9e889b1bbbde60638948f1bf25329
+] 
+[Fixed bug in Bezout domain intersection computation
+mortberg@student.chalmers.se**20100513171435
+ Ignore-this: 42c62695b846b658ebfad1191b12cc8f
+] 
+[Wrote some stuff in TODO
+Anders Mörtberg <mortberg@student.chalmers.se>**20100512154006
+ Ignore-this: 7289825eae039ffb530c0e7667cc432b
+] 
+[Added some examples
+Anders Mörtberg <mortberg@student.chalmers.se>**20100512153827
+ Ignore-this: 14f2e0882df3dafa9602472fc99a718a
+] 
+[Fixed small bug
+Anders Mörtberg <mortberg@student.chalmers.se>**20100505214614
+ Ignore-this: f9bd8cccfea559498cc4bfcae98d6f2a
+] 
+[Added field of fraction version of Q as comment
+Anders Mörtberg <mortberg@student.chalmers.se>**20100505213852
+ Ignore-this: c5c92e52a5f31378bc6ffe6d57812f32
+] 
+[HenselLemma terminating computation
+bassel@student.chalmers.se**20100505195543
+ Ignore-this: 1ee1bdb4a99a57736e3ad4cc282baa75
+] 
+[Working intersectionPD (without witnesses...)
+Anders Mörtberg <mortberg@student.chalmers.se>**20100429192329
+ Ignore-this: 1f6918dc8723b92d3ff70b6fb5112e5
+] 
+[HenselLemma BROKEN!
+bassel@student.chalmers.se**20100428101010
+ Ignore-this: 7d1def8c04a4603128fa26b4e03381c6
+ monadic map over streams gives infinite branching!!
+] 
+[MonadicHenselLemma WORKING :)
+bassel@student.chalmers.se**20100427062355
+ Ignore-this: ecf2a91df7a8f171e7b5147a677769b4
+] 
+[Fixed bug in Prufer domains and added some comments
+Anders Mörtberg <mortberg@student.chalmers.se>**20100426221026
+ Ignore-this: 26de40a8473c93ea0d1fa2b37dada67f
+] 
+[Small fix to EllipticCurve
+Anders Mörtberg <mortberg@student.chalmers.se>**20100426134558
+ Ignore-this: 8f671370e14497d6cb0ec4554fd6d9f
+] 
+[Fixed the bug in EllipticCurve
+Anders Mörtberg <mortberg@student.chalmers.se>**20100426134429
+ Ignore-this: 113f696ea296722ab32166f1c4dd139a
+] 
+[Added field of fractions construction
+Anders Mörtberg <mortberg@student.chalmers.se>**20100426123818
+ Ignore-this: 229909b6f713ab478aef22ccf5016ab1
+] 
+[Started working on the elliptic curve proof
+Anders Mörtberg <mortberg@student.chalmers.se>**20100423135342
+ Ignore-this: cf4c1feec574fc6f7ac37af26dd10e59
+] 
+[moved old HenselLemma code to NonMonadicHenselLemma.hs
+bassel@student.chalmers.se**20100423034526
+ Ignore-this: 211e330278517bb6c3f3873d0e086226
+] 
+[cleanup for Algebra.AlgebraicClosure plus monadic Algebra.HenselLemma (hardly compiles!)
+bassel@student.chalmers.se**20100423034409
+ Ignore-this: bdce22daec50337129b7cd2930b89bc3
+] 
+[Finished ZSqrt5
+Anders Mörtberg <mortberg@student.chalmers.se>**20100422174901
+ Ignore-this: ff13e691d364c5b394c11bad312229e3
+] 
+[Worked on ZSqrt5
+Anders Mörtberg <mortberg@student.chalmers.se>**20100421184442
+ Ignore-this: faea2ad6ab33ac38c3d420ee755cbb85
+] 
+[Finished solveGeneral and started on ZSqrt5
+Anders Mörtberg <mortberg@student.chalmers.se>**20100421140719
+ Ignore-this: ac3f0a29273fcaa970f540eeaf4ed064
+] 
+[Started working on groebner basis computation with witnesses
+Anders Mörtberg <mortberg@student.chalmers.se>**20100420151605
+ Ignore-this: bb3ae6079e39e8d0fe242e69f09eb3e2
+] 
+[modstate inside state
+bassel@student.chalmers.se**20100420003026
+ Ignore-this: f8d24706461d28476fb1e03cc90e59bb
+] 
+[added calculation mod the state
+bassel@student.chalmers.se**20100418031039
+ Ignore-this: fadc8818d8ec862fcb0fee206cce20fc
+] 
+[Allmost working version of the solve function for strongly discrete coherent rings
+Anders Mörtberg <mortberg@student.chalmers.se>**20100416140505
+ Ignore-this: 66647763a89c42d312f733e00cf1f2f7
+] 
+[Small change in TODO
+mortberg@student.chalmers.se**20100415170318
+ Ignore-this: 5258b4148c3dfb13193a87f28379c34c
+] 
+[bug fix
+bassel@student.chalmers.se**20100412105935
+ Ignore-this: 1f5f351ceda22fd36dc095a0215bd4d4
+] 
+[test cases from duval's paper
+bassel@student.chalmers.se**20100411232941
+ Ignore-this: 6f9a24a052822554c1e1f4d27eaf848d
+] 
+[some improvements
+bassel@student.chalmers.se**20100411014101
+ Ignore-this: 5dd1f16dc93dbdf6e4f69591b9597b04
+] 
+[comments for hensel lemma
+bassel@student.chalmers.se**20100409101326
+ Ignore-this: 27490e90d84f16580878f9bc020aba65
+] 
+[bug fix 
+bassel@student.chalmers.se**20100409010643
+ Ignore-this: c7fbedd624570432cf5a1fce72ab41ac
+ the tranformation from the MPoly Y^2 - 1 to an MPoly was buggy. before the fix the result would have been X^2 - 1 due to the drop of zeros.
+ keeping the zeros of the monomial would mean that all the code from MPoly module would need to be rewritten specifically the multip <*>.
+ the solution I did was to pass an integer corresponding to the number of indeterminates required in the MPoly after the transformation. for the above example this number is 2.
+] 
+[comments for algebraic closure
+bassel@student.chalmers.se**20100408180913
+ Ignore-this: 9b9ba56dcb753d7a196a07bb2e4fb828
+] 
+[fixed the looping bug -working fine now!-
+bassel@student.chalmers.se**20100407232801
+ Ignore-this: b5408de7972d071cd3f5db698a8673be
+] 
+[bug fixes -still looping-
+bassel@student.chalmers.se**20100407221944
+ Ignore-this: aa4fb2322806bdcfdcf257acb4c2241b
+] 
+[test cases
+bassel@student.chalmers.se**20100407103318
+ Ignore-this: 6736e8809e29d5e6fd1dbfa0edbd865f
+] 
+[Proved that Bezout domain -> Prufer domain
+mortberg@student.chalmers.se**20100407140905
+ Ignore-this: 3ce41adf7065c1d3e6c1bd02a37da265
+] 
+[nearly working
+bassel@student.chalmers.se**20100407010933
+ Ignore-this: ddbaf9d46333ca563d27e42f6b166a21
+] 
+[silly bug renamed variables[D[D[D[D[D[D[D[D[D[3~[D[C
+bassel@student.chalmers.se**20100407003134
+ Ignore-this: 4a7e1c9cb31d9d99b6e6bbc79b4f356f
+] 
+[AlgebraicClosure smart gcd 
+bassel@student.chalmers.se**20100407000439
+ Ignore-this: 2dc38f7b889adfb262c846287499f73d
+] 
+[Worked on the strongly discrete coherent rings
+mortberg@student.chalmers.se**20100406231850
+ Ignore-this: 1fba24763ae2f9047b35c3e3c3ab3e39
+] 
+[fixed bug in poly. R k -> UPoly (R k) x
+bassel@student.chalmers.se**20100406174926
+ Ignore-this: 9e10b178c58365cb6d252393744d44bb
+] 
+[Algebraic closure -untested-
+bassel@student.chalmers.se**20100406061623
+ Ignore-this: bf0efe0e3db64daea07a5ad00208d1bf
+] 
+[cleanup for UPoly
+bassel@student.chalmers.se**20100405103304
+ Ignore-this: fb0cdeb22403b81ddedc1d5722a1c8ac
+ removed some hard coded test cases of sqfrDec
+] 
+[algebraic_closure
+bassel@student.chalmers.se**20100403204051
+ Ignore-this: 6c16f291d1d718b8b719f94750c7e6df
+ AlgebraicClosure.hs the type of algebraic closure -incomplete
+ HenselLemma.hs fixed a problem arising from the change of deg computation of poly from length to length - 1
+ UPoly.hs add the square free decomposition functions 
+ **END OF DESCRIPTION***
+ 
+ Place the long patch description above the ***END OF DESCRIPTION*** marker.
+ The first line of this file will be the patch name.
+ 
+ 
+ This patch contains the following changes:
+ 
+ A ./src/Algebra/AlgebraicClosure.hs
+ M ./src/Algebra/HenselLemma.hs -1 +1
+ M ./src/Algebra/UPoly.hs +33
+] 
+[Fixed comments and ran hlint
+mortberg@student.chalmers.se**20100402162314
+ Ignore-this: e9140d8b8f31196406e1b1b7283eb14f
+] 
+[Fixed some more comments.
+mortberg@student.chalmers.se**20100401181359
+ Ignore-this: d6175ab28259153cf68ee1f2558cb794
+] 
+[Cleaned up the code
+mortberg@student.chalmers.se**20100401150659
+ Ignore-this: 77b123c90535ed8302f438f1976b7785
+] 
+[Fixed the implementation of solveMxN
+mortberg@student.chalmers.se**20100331215902
+ Ignore-this: cdb3b1b1cad83f2fbd311128d02cbabe
+] 
+[Added README, added example files
+mortberg@student.chalmers.se**20100331094509
+ Ignore-this: 22f1e8fa5ed2493549961eae75677cab
+] 
+[Solved bugs in the computation of intersections
+mortberg@student.chalmers.se**20100330171813
+ Ignore-this: fff4958faa24a0a83cf0e7510024afda
+] 
+[Added lots of comments
+mortberg@student.chalmers.se**20100330151109
+ Ignore-this: f504017b380894340b5881a5f38fb335
+] 
+[solved solveInt
+Anders Mörtberg <mortberg@student.chalmers.se>**20100327145222
+ Ignore-this: 15f450ad729a371e2281138a94f66543
+] 
+[Finished the function computing PLM for prufer domains
+Anders Mörtberg <mortberg@student.chalmers.se>**20100317181632
+ Ignore-this: c6ccb4b47b746226ce2b781ce5a0a3be
+] 
+[Started working on the coherence proof for Prufer domains
+Anders Mörtberg <mortberg@student.chalmers.se>**20100316100244
+ Ignore-this: 6410773d1d7f931e7a173fd18f3c02c6
+] 
+[Small fixes
+mortberg@student.chalmers.se**20100315160613
+ Ignore-this: e79f976bc14d5951d9c19c50ed8fc767
+] 
+[Rewrote Matrix.hs by adding Vectors. Added some more tests in Test/TestAll.hs
+Anders Mörtberg <mortberg@student.chalmers.se>**20100309095950
+ Ignore-this: 4f839fa1e42176ad6518ff45a4672a14
+] 
+[Added Monomial
+mortberg@student.chalmers.se**20100309085642
+ Ignore-this: 6e00bd395122d4435b86e6657e5ac0bb
+] 
+[dummy patch
+bassel@student.chalmers.se**20100308194503
+ Ignore-this: 9941cd6406adc5d99c73ac1e5fb1582c
+] 
+[Fixed bug in UPoly
+mortberg@student.chalmers.se**20100308181604
+ Ignore-this: d7184f22324d0a5c24eeed099ead0db6
+] 
+[Merged Buchberger and MPoly
+mortberg@student.chalmers.se**20100308145518
+ Ignore-this: 87cee44ac8692412c3961a28b5fdc258
+] 
+[Added PLM and cleaned up code
+mortberg@student.chalmers.se**20100307201330
+ Ignore-this: e6dd94c72748586656416e45c97d6f8a
+] 
+[Removed redundant files and fixed TODO
+mortberg@student.chalmers.se**20100307190108
+ Ignore-this: cf01df35fe517d277e1ed29226c47e75
+] 
+[Removed MyUPoly and fixed HenselLemma and FormalPowerSeries
+mortberg@student.chalmers.se**20100305155409
+ Ignore-this: 314282a39a29f00db35d9d33ff0d26bd
+] 
+[Initialised repository
+Anders Mörtberg <mortberg@student.chalmers.se>**20100301002758
+ Ignore-this: 1a4a4ea328aadc3e449e6d31ddf68d19
+] 
+Patch bundle hash:
+baff8035392d59f7cc1fcbeb27b0195362d4e29e

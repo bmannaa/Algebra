@@ -1,0 +1,22 @@
+YPMulti. YP  ::= YP YP1 ;
+YPSing.  YP1 ::= Term ;
+_.       YP  ::= YP1 ;
+-- Terms
+TermNonConst.  Term ::= SCoeff Mon ;
+TermConst.     Term ::= SCoeff ;
+
+-- Monomials
+MonomX.  Mon  ::= XMon ; 
+MonomY.  Mon  ::= YMon ; 
+MonomXY. Mon  ::= XMon YMon ;
+XMonom.  XMon ::= "X^" Integer ;
+YMonom.  YMon ::= "Y^" Integer ;
+
+-- Coefficients
+SCoeffP. SCoeff ::= "+" Coeff ; 
+SCoeffM. SCoeff ::= "-" Coeff ; 
+
+CoeffR.  Coeff   ::= Coeff1 "/" Coeff1 ;
+CoeffI.  Coeff1  ::= Integer ;
+coercions Coeff 1 ;
+
