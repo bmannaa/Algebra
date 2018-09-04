@@ -116,3 +116,6 @@ import Algebra.FormalPowerSeries
 
 -- Proof of the Hensel lemma.
 import Algebra.HenselLemma
+
+-- Proof of Newton-Puiseux Theoem.
+import Algebra.NewtonTheorem
