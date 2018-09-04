@@ -161,19 +161,6 @@ findIndicesM  f  xs = fi f xs 0
                                   False -> fi f xs (n+1)
                                   True  -> do ns <- fi f xs (n+1)
                                               return (n:ns)
--- | test if an element is a unit
-{-
-
--- | Given the result of Newton theorem it returns a diplayable result, taking only few elements of each power series coeff
-run  :: (Field k, Eq k, Show k) => ST (S k) (Q, [F (R k) z y])
-                                      -> ST (S k) (Q, [UPoly (UPoly (R k) z) y])
-run  factors = do (i,xs) <- factors
-                  ps <- mapM (\(UP p) -> liftM UP $ mapM forshow p) xs
-                  return (i, ps)
-
-forshow :: (Field k, Eq k, Show k) => (PSeries (R k) x) -> ST (S k) (UPoly (R k) x)
-forshow (PS xs) = liftM (toUPoly) $ mapM modState (take 1 xs)
--}
 
 -- | Given the result of Newton theorem it returns a diplayable result, taking only few elements of each power series coeff
 run  :: (Field k, Eq k, Show k) => ST (S k) (Q, [F (R k) z y])
